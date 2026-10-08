@@ -3,7 +3,8 @@
 Desenhos próprios em SVG, feitos para os cartões da agenda. Todos são molduras de 9 fatias (300x300, cantos de 120).
 
 - `moldura-gotica.svg` + `brasao-gotico.svg` — moldura de linhas finas cruzadas, espinhos e brasão no topo. O dono gostou e pediu para guardar (08/10/2026). Não está em uso.
-- `arame-farpado.svg` — arame farpado gótico, em uso nos cartões de datas futuras (embutido em `css/style.css`).
+- `arame-farpado.svg` — arame farpado gótico (par de fios trançados com farpas em chama). Não está em uso.
+- `gerar_sigilo.py` — gera a moldura em uso nos cartões de datas futuras: `assets/images/sigilo.svg` e os dois `sigilo-brasao*.svg`. Rodar na raiz: `python extras/molduras/gerar_sigilo.py 7` (o número é a semente; outro número dá outro emaranhado no mesmo estilo).
 
 ## Como usar uma delas
 ```css

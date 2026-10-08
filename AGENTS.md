@@ -14,6 +14,11 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (moldura "sigilo")
+- **Feito:** o dono deixou nova referência na raiz (`stock-vector-neo-tribal-*.jpg`, banco de imagens com marca d'água; fora do git e **não pode ser usada**, só o estilo). Os cartões futuros agora usam uma moldura própria no mesmo estilo (ramos finos emaranhados com espinhos curvos, ornamento no meio de cima e de baixo), gerada por `extras/molduras/gerar_sigilo.py` (semente 7) em `assets/images/sigilo.svg` e `sigilo-brasao*.svg`. O arame farpado saiu de uso e ficou guardado em `extras/molduras/`.
+- **Arquivos:** `extras/molduras/gerar_sigilo.py` (novo), `assets/images/sigilo*.svg` (novos), `css/style.css`, `index.html`, `.gitignore`, `extras/molduras/LEIA-ME.md`.
+- **Testes:** Chrome 1440x900: moldura nos 7 cartões futuros, sem cobrir textos nem encostar nos vizinhos, 5 colunas, sem rolagem horizontal. Não testado: celular, hover real.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (arame farpado gótico)
 - **Feito:** a pedido do dono, os cartões futuros agora são envolvidos por arame farpado em estilo gótico (par de fios trançados, farpas em forma de chama como as serifas da logo, laço nos cantos e um ramo curto entrando no cartão), SVG embutido em `.dia.futuro::before`. A moldura gótica anterior, de que ele gostou, ficou guardada em `extras/molduras/` (com o brasão e um LEIA-ME de uso). Removida a foto flutuante ao passar o mouse nas datas (HTML, CSS e JS). O dono confirmou que a iluminação do hover ficou certa.
 - **Arquivos:** `css/style.css`, `js/main.js`, `index.html`, `extras/molduras/*` (novo).
