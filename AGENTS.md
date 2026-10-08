@@ -13,6 +13,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (ajuste 3)
+- **Feito:** logo centralizada na vertical do hero. Tinta refeita: rastro que engrossa com a velocidade, borda ondulada, brilho leve de líquido, translúcida, poucas gotas, sem respingos. Corrigido defeito em monitores de alta taxa (241 fps nesta máquina): o recuo por quadro ficava abaixo de 1/255 e a máscara de 8 bits nunca apagava, então a tinta acumulava; agora recua em passos de 1/30 s.
+- **Arquivos:** `js/ink.js`, `css/style.css`, `index.html` (versão dos arquivos).
+- **Testes:** Chrome 1440x900 a 241 fps, movimento contínuo simulado: rastro some, sem resíduo, console sem erros. Não testado: celular nesta rodada.
+- **Próximo passo:** avaliação do dono sobre a tinta nova.
 ### 08/10/2026 — Claude Code (ajuste 2)
 - **Feito:** logo do hero no meio-termo e centralizada (desktop: até 1060px / 76vw; celular: 90%). O dono achou 100% grande demais e 760px pequeno demais.
 - **Arquivos:** `css/style.css`.

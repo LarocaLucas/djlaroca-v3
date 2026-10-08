@@ -1,6 +1,7 @@
-/* Tinta do hero: o ponteiro espalha tinta roxa e, dentro dela, a logo glitch
-   vira a logo gótica. Máscara 2D de baixa resolução + limiar num shader WebGL.
-   Sem WebGL ou com "reduzir movimento": fica só a <img> da logo glitch. */
+/* Tinta do hero: o ponteiro deixa um rastro de tinta líquida e, dentro dele, a
+   logo glitch vira a logo gótica. Máscara 2D de baixa resolução + shader WebGL
+   (limiar, ondulação e brilho de líquido). Sem WebGL ou com "reduzir
+   movimento": fica só a <img> da logo glitch. */
 (() => {
   const hero = document.querySelector('.hero');
   const canvas = hero && hero.querySelector('.ink');
@@ -19,23 +20,42 @@
 varying vec2 v;
 uniform sampler2D uA, uB, uM;
 uniform vec4 uRect;
-uniform vec2 uRes;
+uniform vec2 uRes, uPx;
 uniform float uT;
+const float LIM = .3;
 float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
   return mix(mix(h(i), h(i+vec2(1,0)), f.x), mix(h(i+vec2(0,1)), h(i+vec2(1,1)), f.x), f.y); }
 void main(){
   vec2 p = v * uRes / uRes.y;
-  float m = texture2D(uM, v).a;
-  float nz = n(p*7. + uT*.15)*.6 + n(p*19. - uT*.1)*.4;
-  m += (nz - .5) * .7 * smoothstep(.05, .4, m);          // borda orgânica
-  float ink = smoothstep(.47, .53, m);
+  // ondulação: a borda deixa de ser um círculo perfeito e se mexe devagar
+  vec2 w = vec2(n(p*3.2 + uT*.22), n(p*3.2 + 7.3 - uT*.18)) - .5;
+  w += (vec2(n(p*9. - uT*.3), n(p*9. + 3.1 + uT*.26)) - .5) * .4;
+  vec2 mv = v + w * vec2(uRes.y / uRes.x, 1.) * .034;
+  float m = texture2D(uM, mv).a;
+  if (m < .02) {                                   // fora da tinta: só a logo glitch
+    vec2 q0 = (v - uRect.xy) / uRect.zw;
+    float a0 = texture2D(uA, q0).a * step(0., q0.x) * step(q0.x, 1.) * step(0., q0.y) * step(q0.y, 1.);
+    gl_FragColor = vec4(a0);
+    return;
+  }
+  float gx = texture2D(uM, mv + vec2(uPx.x, 0.)).a - texture2D(uM, mv - vec2(uPx.x, 0.)).a;
+  float gy = texture2D(uM, mv + vec2(0., uPx.y)).a - texture2D(uM, mv - vec2(0., uPx.y)).a;
+  m += (n(p*26.) - .5) * .2 * smoothstep(.1, .3, m);
+  float ink = smoothstep(LIM - .012, LIM + .012, m);
+  // brilho de líquido a partir do relevo da máscara
+  vec3 nor = normalize(vec3(-gx, -gy, .7));
+  vec3 luz = normalize(vec3(-.45, -.65, .6));
+  float dif = max(dot(nor, luz), 0.);
+  float esp = pow(max(reflect(-luz, nor).z, 0.), 28.);
+  float borda = 1. - smoothstep(LIM, LIM + .16, m);
+  vec3 cor = vec3(.15, .03, .34) * (.8 + .35 * dif) + vec3(.55, .22, 1.) * borda * .4 + vec3(.95, .85, 1.) * esp * .22;
   vec2 q = (v - uRect.xy) / uRect.zw;
   float dentro = step(0., q.x) * step(q.x, 1.) * step(0., q.y) * step(q.y, 1.);
   float a = texture2D(uA, q).a * dentro;
   float b = texture2D(uB, q).a * dentro;
-  vec3 cor = mix(vec3(.20, .03, .46), vec3(.61, .19, 1.), smoothstep(.5, 1.2, m));
-  gl_FragColor = mix(vec4(vec3(a), a), vec4(mix(cor, vec3(1.), b), 1.), ink);
+  vec4 tinta = mix(vec4(cor * .8, .8), vec4(1.), b);   // pré-multiplicado
+  gl_FragColor = mix(vec4(a), tinta, ink);
 }`;
 
   const sh = (tipo, src) => { const s = gl.createShader(tipo); gl.shaderSource(s, src); gl.compileShader(s); return s; };
@@ -61,7 +81,7 @@ void main(){
   };
   const carrega = src => new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = erro; i.src = src; });
 
-  let raio = 20, rodando = false, visivel = true, ultimo = 0, atividade = 0, varre = 0, pos = null;
+  let raio = 20, larg = 1, recuo = 0, rodando = false, visivel = true, ultimo = 0, atividade = 0, varre = 0, pos = null;
   const gotas = [];
 
   function mede() {
@@ -74,25 +94,28 @@ void main(){
     const fh = S.width * FRAME;
     gl.uniform4f(U('uRect'), (S.left - H.left) / w, (S.top - H.top + (S.height - fh) / 2) / hh, S.width / w, fh / hh);
     gl.uniform2f(U('uRes'), w, hh);
-    raio = Math.max(12, S.height * 0.3 / ESCALA);
+    gl.uniform2f(U('uPx'), 1.5 / mask.width, 1.5 / mask.height);
+    raio = Math.max(9, S.height * .38 / ESCALA);
   }
 
-  function carimbo(x, y, r) {
+  function carimbo(x, y, r, forca = 1) {
     const g = mx.createRadialGradient(x, y, 0, x, y, r);
-    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.45, 'rgba(255,255,255,.75)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    g.addColorStop(0, `rgba(255,255,255,${forca})`); g.addColorStop(.5, `rgba(255,255,255,${forca * .55})`); g.addColorStop(1, 'rgba(255,255,255,0)');
     mx.fillStyle = g; mx.beginPath(); mx.arc(x, y, r, 0, 6.2832); mx.fill();
   }
 
-  // x, y em px do hero
-  function pinta(x, y) {
+  // x, y em px do hero; o traço engrossa com a velocidade (devagar = fio de tinta)
+  function pinta(x, y, minimo = 0) {
     x /= ESCALA; y /= ESCALA;
-    const de = pos || { x, y }, d = Math.hypot(x - de.x, y - de.y);
-    const passos = Math.max(1, Math.ceil(d / (raio * .4)));
-    const r = raio * (.75 + Math.min(d / raio, 1.2) * .35);
+    const de = pos || { x, y }, dx = x - de.x, dy = y - de.y, d = Math.hypot(dx, dy);
+    const vel = Math.max(Math.min(d / (raio * .7), 1), minimo);
+    larg += (Math.random() - .5) * .25; larg = Math.min(1.25, Math.max(.7, larg));   // largura irregular
+    const r = raio * (.38 + .8 * vel) * larg;
+    const passos = Math.max(1, Math.ceil(d / (r * .35)));
     for (let i = 1; i <= passos; i++) {
-      const px = de.x + (x - de.x) * i / passos, py = de.y + (y - de.y) * i / passos;
-      carimbo(px, py, r);
-      if (Math.random() < .22) gotas.push({ x: px + (Math.random() - .5) * r, y: py, r: r * (.25 + Math.random() * .25), vy: 30 + Math.random() * 60 });
+      const px = de.x + dx * i / passos, py = de.y + dy * i / passos;
+      carimbo(px, py, r, .55 + .45 * vel);
+      if (Math.random() < .03) gotas.push({ x: px + (Math.random() - .5) * r * .8, y: py + r * .3, r: r * (.16 + Math.random() * .14), vy: 35 + Math.random() * 55 });
     }
     pos = { x, y };
     acorda();
@@ -101,25 +124,31 @@ void main(){
   function quadro(agora) {
     const dt = Math.min((agora - ultimo) / 1000, .05); ultimo = agora;
     if (varre) {                       // passada automática sobre a logo
-      const t = (agora - varre) / 1500, S = slot.getBoundingClientRect(), H = hero.getBoundingClientRect();
+      const t = (agora - varre) / 1300, S = slot.getBoundingClientRect(), H = hero.getBoundingClientRect();
       if (t >= 1) { varre = 0; pos = null; }
-      else pinta(S.left - H.left + S.width * (.04 + .92 * t), S.top - H.top + S.height * (.5 + Math.sin(t * 9) * .22));
+      else pinta(S.left - H.left + S.width * (.06 + .88 * t), S.top - H.top + S.height * (.5 + Math.sin(t * 8) * .2), .7);
     }
-    mx.globalCompositeOperation = 'destination-out';   // a tinta recua
-    mx.fillStyle = `rgba(0,0,0,${1 - Math.exp(-dt * .9)})`;
-    mx.fillRect(0, 0, mask.width, mask.height);
-    mx.globalCompositeOperation = 'source-over';
-    for (let i = gotas.length - 1; i >= 0; i--) {      // gotas escorrendo
+    // a tinta recua. Em passos de 1/30 s: num monitor de 144 Hz+ o passo por quadro
+    // seria menor que 1/255 e a máscara de 8 bits nunca terminaria de apagar.
+    recuo += dt;
+    if (recuo >= 1 / 30) {
+      mx.globalCompositeOperation = 'destination-out';
+      mx.fillStyle = `rgba(0,0,0,${1 - Math.exp(-recuo * 1.05)})`;
+      mx.fillRect(0, 0, mask.width, mask.height);
+      mx.globalCompositeOperation = 'source-over';
+      recuo = 0;
+    }
+    for (let i = gotas.length - 1; i >= 0; i--) {      // gotas escorrendo, afinando
       const g = gotas[i];
-      g.y += g.vy * dt; g.vy *= .985; g.r *= .99;
+      const f = dt * 60; g.y += g.vy * dt; g.vy *= .975 ** f; g.r *= .985 ** f;
       carimbo(g.x, g.y, g.r);
-      if (g.r < 2 || g.y > mask.height + g.r) gotas.splice(i, 1);
+      if (g.r < 1.6 || g.vy < 6 || g.y > mask.height + g.r) gotas.splice(i, 1);
     }
     gl.activeTexture(gl.TEXTURE2);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mask);
     gl.uniform1f(U('uT'), agora / 1000);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    rodando = visivel && agora - atividade < 6000;     // parado: desliga o laço
+    rodando = visivel && agora - atividade < 4000;     // parado: desliga o laço
     if (rodando) requestAnimationFrame(quadro);
   }
   function acorda() {
