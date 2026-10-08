@@ -53,12 +53,10 @@
     for (const d of [...ag.datas].sort((a, b) => a.data.localeCompare(b.data))) dias.set(d.data, [...(dias.get(d.data) || []), d]);
     corpo.textContent = '';
     if (ag.aviso) { aviso.textContent = ag.aviso; aviso.hidden = false; }
-    let k = 0;
     for (const [data, shows] of dias) {
       const passou = data < hoje, dt = new Date(data + 'T12:00:00'), parte = o => dt.toLocaleDateString('pt-BR', o).replace('.', '');
       const situacao = passou ? 'Realizado' : shows.every(s => s.situacao === shows[0].situacao) ? shows[0].situacao : 'Confirmado';
       const dia = cria('article', passou ? 'dia passou' : 'dia futuro'), topo = cria('header'), lista = cria('ul');
-      dia.dataset.img = caminho(k++ * 9 % total + 1);
       topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), comGlitch('span', 'dia-m', parte({ month: 'short' }) + String.fromCharCode(10) + parte({ weekday: 'short' })), comGlitch('span', 'dia-s', situacao));
       for (const s of shows) {
         const li = cria('li');
@@ -178,15 +176,4 @@
     if (parado) { parado = false; requestAnimationFrame(segue); }
   });
   document.documentElement.addEventListener('pointerleave', () => cursor.classList.remove('on'));
-
-  /* Agenda: foto flutuante ao passar por uma data */
-  const peek = $('.peek'), peekImg = $('img', peek);
-  corpo.addEventListener('pointermove', e => {
-    const tr = e.target.closest('[data-img]');
-    peek.classList.toggle('on', !!tr);
-    if (!tr) return;
-    if (!peekImg.src.endsWith(tr.dataset.img)) peekImg.src = tr.dataset.img;
-    peek.style.transform = `translate(${e.clientX + 24}px,${e.clientY - 90}px)`;
-  });
-  corpo.addEventListener('pointerleave', () => peek.classList.remove('on'));
 })();

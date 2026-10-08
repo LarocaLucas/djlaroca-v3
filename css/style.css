@@ -147,7 +147,7 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .nota { margin-top: 28px; font-size: .74rem; color: var(--dim); }
 
 /* agenda: um cartão por dia */
-.dias { margin-top: clamp(24px, 4vh, 44px); display: grid; grid-template-columns: repeat(auto-fill, minmax(244px, 1fr)); gap: 24px; }
+.dias { margin-top: clamp(24px, 4vh, 44px); display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px 28px; }
 .dia { display: grid; align-content: start; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(240, 232, 255, .03); transition: border-color .3s, background .3s, translate .4s var(--ease); }
 .dia:hover { border-color: var(--violet); background: rgba(155, 48, 255, .1); translate: 0 -4px; }
 .dia { min-width: 0; position: relative; isolation: isolate; }
@@ -163,30 +163,29 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .dia.livre { border-style: dashed; border-color: var(--violet); }
 .dia.livre p { font-size: .86rem; color: var(--dim); line-height: 1.4; }
 .dia.livre .pill { justify-self: start; }
-/* dia que ainda vai acontecer: moldura gótica desenhada em SVG (referência: overlays e logo gótica do Laroca).
-   ::before = moldura (cantos ornamentados, bordas lisas que esticam); ::after = brasão no meio de cima e de baixo.
-   Sem fundo preenchido: a luz do hover é só o brilho das próprias linhas, então segue o desenho. --bw = tamanho do canto. */
+/* dia que ainda vai acontecer: arame farpado gótico envolvendo o cartão (desenho próprio em SVG; cópia em
+   extras/molduras/arame-farpado.svg). Par de fios trançados, farpas em forma de chama como as serifas da logo,
+   laço nos cantos e um ramo que entra no cartão. Sem fundo: no hover só o arame acende. --bw = tamanho do canto. */
 @property --cresce { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-.dia.futuro { --bw: 84px; --fora: 12px; padding: 30px 26px 28px; border-color: transparent; border-radius: 0; background: none; }
+.dia.futuro { --bw: 72px; --fora: 5px; padding: 36px 32px 32px; border-color: transparent; border-radius: 0; background: none; }
 .dia.futuro:hover { border-color: transparent; background: none; }
-.dia.futuro::before, .dia.futuro::after {
+.dia.futuro::before {
   content: ''; position: absolute; inset: calc(var(--fora) * -1); z-index: -1; pointer-events: none;
+  border: var(--bw) solid transparent; border-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22 viewBox=%220 0 300 300%22%3E%3Cdefs%3E%3Cg id=%22t%22 fill=%22%23f0e8ff%22%3E%3Cpath d=%22M61 22C58 14 59 7 64-2 64 7 66 14 67 22Z%22/%3E%3Cpath d=%22M60 27C63 35 62 42 57 50 65 44 68 36 66 27Z%22/%3E%3Cpath d=%22M58 22 46 9 63 20Z%22/%3E%3Cpath d=%22M69 27 80 40 65 29Z%22/%3E%3Cpath d=%22M97 21C95 15 96 10 99 4 100 10 101 15 102 21Z%22/%3E%3Cpath d=%22M96 27C98 33 98 38 95 44 101 39 103 33 102 27Z%22/%3E%3Cpath d=%22M60 20.500 67 28.500M56.500 21 63.500 29%22 fill=%22none%22 stroke=%22%23f0e8ff%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M96 20.500 102 28%22 fill=%22none%22 stroke=%22%23f0e8ff%22 stroke-width=%221.4%22 stroke-linecap=%22round%22/%3E%3C/g%3E%3Cg id=%22c%22%3E%3Cg fill=%22none%22 stroke=%22%23cdbfe8%22 stroke-width=%221.6%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M120 21C108 21 100 27 90 27S72 21 62 21C40 21 21 40 21 62 21 72 27 80 27 90S21 108 21 120%22/%3E%3Cpath d=%22M120 27C108 27 100 21 90 21S72 27 62 27C44 27 27 44 27 62 27 72 21 80 21 90S27 108 27 120%22/%3E%3Cpath d=%22M50 30C30 8 6 30 28 50 46 66 66 48 50 30Z%22/%3E%3Cpath d=%22M40 40C48 43 50 52 57 56 62 59 64 64 63 70%22/%3E%3C/g%3E%3Cuse href=%22%23t%22/%3E%3Cuse href=%22%23t%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cg fill=%22%23f0e8ff%22%3E%3Cpath d=%22M22 26 -4 -4 26 22Q27 26 22 26Z%22/%3E%3Cpath d=%22M17 31C9 30 3 27-3 21 3 23 9 23 16 21Z%22/%3E%3Cpath d=%22M31 17C30 9 27 3 21-3 23 3 23 9 21 16Z%22/%3E%3Cpath d=%22M61 69C62 75 60 80 56 85 63 82 67 76 66 69Z%22/%3E%3Cpath d=%22M61 68 52 74 62 72Z%22/%3E%3Cpath d=%22M65 68 74 72 65 72Z%22/%3E%3C/g%3E%3C/g%3E%3Cg id=%22e%22%3E%3Cg fill=%22none%22 stroke=%22%23cdbfe8%22 stroke-width=%221.600%22%3E%3Cpath d=%22M120 21C130 21 140 27 150 27S170 21 180 21%22/%3E%3Cpath d=%22M120 27C130 27 140 21 150 21S170 27 180 27%22/%3E%3C/g%3E%3Cg fill=%22%23f0e8ff%22%3E%3Cpath d=%22M133 22C130 14 131 7 136-2 136 7 138 14 139 22Z%22/%3E%3Cpath d=%22M132 26C135 34 134 41 129 49 137 43 140 35 138 26Z%22/%3E%3Cpath d=%22M131 22 120 10 135 20Z%22/%3E%3Cpath d=%22M140 26 151 38 136 28Z%22/%3E%3Cpath d=%22M132.500 20 139 28M129 20.500 135.500 28.500%22 fill=%22none%22 stroke=%22%23f0e8ff%22 stroke-width=%221.5%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M164 22 166 13 168 22ZM163 26 166 34 169 26Z%22/%3E%3C/g%3E%3C/g%3E%3C/defs%3E%3Cuse href=%22%23c%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 0) scale(-1 1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 300) scale(-1 -1)%22/%3E%3Cuse href=%22%23e%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23e%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(300 0) scale(-1 1) matrix(0 1 1 0 0 0)%22/%3E%3C/svg%3E") 120 / var(--bw) round;
   filter: drop-shadow(0 0 2px rgba(155, 48, 255, .9)) drop-shadow(0 0 6px rgba(155, 48, 255, .45));
   opacity: 0; transition: filter .45s, opacity .45s;
   --m: #000 var(--cresce), transparent calc(var(--cresce) + 10%);
   --mask: radial-gradient(circle at 0 0, var(--m)), radial-gradient(circle at 100% 0, var(--m)), radial-gradient(circle at 0 100%, var(--m)), radial-gradient(circle at 100% 100%, var(--m));
 }
-.dia.futuro::before { border: var(--bw) solid transparent; border-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22 viewBox=%220 0 300 300%22%3E%3Cdefs%3E%3Cg id=%22t%22 fill=%22%23f0e8ff%22%3E%3Cpath d=%22M120 23H40L-6 20.500 40 25H120Z%22/%3E%3Cpath d=%22M10 38C28 10 68 0 116 12 70 6 34 16 10 38Z%22/%3E%3Cpath d=%22M30 31C46 16 70 12 98 18 72 15 50 20 34 34Z%22/%3E%3Cpath d=%22M56 23 61 3 64 23Z%22/%3E%3Cpath d=%22M78 23 90 8 86 23Z%22/%3E%3Cpath d=%22M100 23 104 14 107 23Z%22/%3E%3Cpath d=%22M68 25 72 46 75 25Z%22/%3E%3Cpath d=%22M92 25 99 37 98 25Z%22/%3E%3Cpath d=%22M50 33C56 40 58 48 55 58 63 50 64 41 60 33Z%22/%3E%3Cpath d=%22M110 33 113 41 116 33Z%22/%3E%3C/g%3E%3Cg id=%22c%22 fill=%22%23f0e8ff%22%3E%3Cuse href=%22%23t%22/%3E%3Cuse href=%22%23t%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cpath d=%22M120 33H64Q48 33 46 46 33 48 33 64V120%22 fill=%22none%22 stroke=%22%23f0e8ff%22 stroke-width=%221%22/%3E%3Cpath d=%22M27 22 0 0 22 27Z%22/%3E%3Cpath d=%22M43 47 70 70 47 43Z%22/%3E%3C/g%3E%3Cg id=%22e%22 fill=%22%23f0e8ff%22%3E%3Cpath d=%22M120 22.900h60v2.400h-60Z%22/%3E%3Cpath d=%22M120 32.500h60v1h-60Z%22/%3E%3C/g%3E%3C/defs%3E%3Cuse href=%22%23c%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 0) scale(-1 1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 300) scale(-1 -1)%22/%3E%3Cuse href=%22%23e%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23e%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(300 0) scale(-1 1) matrix(0 1 1 0 0 0)%22/%3E%3C/svg%3E") 120 / var(--bw) stretch; }
-.dia.futuro::after { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%2270%22 viewBox=%220 0 160 70%22 fill=%22%23f0e8ff%22%3E%3Cpath d=%22M80 2 83 22C96 12 122 9 154 22 124 15 100 18 87 30 96 30 104 33 110 39 102 36 94 36 86 39L80 69 74 39C66 36 58 36 50 39 56 33 64 30 73 30 60 18 36 15 6 22 38 9 64 12 77 22Z%22/%3E%3C/svg%3E") center 0 / calc(var(--bw) * 1.333) no-repeat; }
-/* A máscara que faz a moldura crescer dos cantos só existe DURANTE a animação: uma máscara
+/* A máscara que faz o arame crescer dos cantos só existe DURANTE a animação: uma máscara
    permanente cortaria o brilho num retângulo (era a "luz quadrada" do hover). */
-.dia.futuro.in::before, .dia.futuro.in::after { opacity: .82; animation: cresce 2.2s var(--ease) calc(.5s + var(--k, 0) * 110ms) both; }
+.dia.futuro.in::before { opacity: .85; animation: cresce 2.6s var(--ease) calc(.5s + var(--k, 0) * 110ms) both; }
 @keyframes cresce {
   0%   { --cresce: 0%;  -webkit-mask: var(--mask); mask: var(--mask); }
   99%  { --cresce: 62%; -webkit-mask: var(--mask); mask: var(--mask); }
   100% { --cresce: 62%; -webkit-mask: none; mask: none; }
 }
-.dia.futuro:hover::before, .dia.futuro:hover::after { opacity: 1; filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px var(--neon)) drop-shadow(0 0 12px var(--violet)); }
+.dia.futuro:hover::before { opacity: 1; filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px var(--neon)) drop-shadow(0 0 12px var(--violet)); }
 
 /* dia que já passou: o cartão inteiro falha (glitch), não só os textos */
 .dia.passou { border-color: rgba(240, 232, 255, .1); }
@@ -271,15 +270,12 @@ main > section.contato { background: linear-gradient(to bottom, var(--ink), #2a0
 .rodape a { display: inline-block; padding-block: 12px; }
 .rodape a:hover { text-decoration: underline; }
 
-/* ---------- Cursor e foto flutuante (só com mouse) ---------- */
-.cursor, .peek { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .25s; }
+/* ---------- Cursor (só com mouse) ---------- */
+.cursor { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .25s; }
 .cursor { width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: rgba(200, 200, 200, .75); }
 .cursor::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--neon); opacity: 0; scale: 1; transition: opacity .25s, scale .35s var(--ease); }
 .cursor.on { opacity: 1; }
 .cursor.alvo::after { opacity: .55; scale: 2.6; }
-.peek { width: 170px; aspect-ratio: 4 / 5; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, .6); z-index: 20; }
-.peek img { width: 100%; height: 100%; object-fit: cover; }
-.peek.on { opacity: 1; }
 
 /* ---------- Entradas ---------- */
 .js [data-split] span { display: inline-block; opacity: 0; filter: blur(14px); transition: opacity .7s var(--ease), filter .7s var(--ease); transition-delay: calc(var(--i) * 28ms); }
@@ -313,9 +309,9 @@ main > section.contato { background: linear-gradient(to bottom, var(--ink), #2a0
   .hero-foot { flex-direction: column; align-items: flex-start; }
   .hero-tags { flex-direction: column; }
   .hero-video[src] { display: block; }
-  .dias { grid-template-columns: repeat(2, 1fr); gap: 16px 14px; }
+  .dias { grid-template-columns: repeat(2, 1fr); gap: 18px 14px; }
   .dia { padding: 14px 12px; }
-  .dia.futuro { --bw: 60px; --fora: 9px; padding: 24px 16px 20px; }
+  .dia.futuro { --bw: 54px; --fora: 4px; padding: 28px 22px 24px; }
   .dia header { flex-wrap: wrap; }
   .dia-s { margin-left: 0; }
   .sobre-foot { grid-template-columns: 1fr; }

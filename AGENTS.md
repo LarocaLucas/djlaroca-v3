@@ -14,6 +14,11 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (arame farpado gótico)
+- **Feito:** a pedido do dono, os cartões futuros agora são envolvidos por arame farpado em estilo gótico (par de fios trançados, farpas em forma de chama como as serifas da logo, laço nos cantos e um ramo curto entrando no cartão), SVG embutido em `.dia.futuro::before`. A moldura gótica anterior, de que ele gostou, ficou guardada em `extras/molduras/` (com o brasão e um LEIA-ME de uso). Removida a foto flutuante ao passar o mouse nas datas (HTML, CSS e JS). O dono confirmou que a iluminação do hover ficou certa.
+- **Arquivos:** `css/style.css`, `js/main.js`, `index.html`, `extras/molduras/*` (novo).
+- **Testes:** Chrome 1440x900: arame nos 7 cartões futuros sem encostar nos vizinhos nem cobrir textos, 5 colunas, sem rolagem horizontal, console sem erros. Não testado: celular, hover real com mouse.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (moldura gótica, luz do hover corrigida)
 - **Feito:** o dono reprovou a moldura anterior ("não combina nem com gótico nem com cyberpunk", quer mais gótico; os overlays são só referência). Nova moldura SVG em `.dia.futuro::before`: duas linhas finas que se cruzam e passam do canto em agulha, arcos finos, espinhos e agulha diagonal nos cantos; bordas lisas; brasão (adaga com asas) no meio do topo em `::after`. Sem fundo preenchido no cartão.
 - **Causa da "luz quadrada" do hover:** a máscara do crescimento (permanente) cortava o `drop-shadow` no retângulo do elemento. Agora a máscara só existe dentro do `@keyframes cresce` e vira `none` no fim; o brilho do hover é só `drop-shadow` das linhas. `mask-clip: no-clip` foi testado e não resolveu no Chrome.
