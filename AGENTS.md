@@ -14,6 +14,12 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (agenda em cartões, glitch, vídeo no celular)
+- **Feito:** agenda agrupada em um cartão por dia (15 shows viram 9 cartões + "Sua data"); dia passado fica apagado, com glitch no número e nos nomes, e vira "Realizado". Incluídas as datas de 02 e 03/10. No celular o hero usa o vídeo da v2 de fundo (o JS só carrega o vídeo em telas até 820px; no computador fica a foto). Faixa de estilos mais rápida (17 s). Hero no celular: as duas etiquetas em linhas separadas, sem quebrar o "]".
+- **Correções:** (1) a logo ficava em branco se a página abrisse já rolada e a pessoa voltasse ao topo: a tinta agora redesenha ao rolar de volta ao hero; (2) sobra lateral de 15px no celular causada pelos títulos que deslizam: seções com `overflow-x: clip`.
+- **Arquivos:** `agenda.json`, `index.html`, `css/style.css`, `js/main.js`, `js/ink.js`, `assets/videos/hero-video.mp4`, `assets/images/hero-poster.jpg`, `README.md`.
+- **Testes:** Chrome 1440x900 e 390x844: cartões, glitch visível, vídeo tocando no celular, logo de volta ao rolar ao topo, sem rolagem horizontal. Não testado: iPhone real.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (agenda real e mais animações)
 - **Feito:** agenda passa a vir de `agenda.json` (aviso + datas; 12 shows de outubro/2026), montada pelo `js/main.js`; datas passadas ficam apagadas como "Realizado". Hero: "DJ de funk // open format // cena nacional". Animações novas: frase do "sobre" acende palavra a palavra conforme a rolagem, números contam até o valor, faixa de texto correndo, títulos "A mescla"/"Sua pista" e a capa se movem com a rolagem, títulos de seção se revelam da esquerda, linhas das listas entram em sequência, fotos da mesa são jogadas uma a uma, agenda sobe com cantos arredondados sobre o degradê.
 - **Arquivos:** `agenda.json` (novo), `index.html`, `css/style.css`, `js/main.js`, `README.md`.

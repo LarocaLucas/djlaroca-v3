@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/images/logo-glitch.webp">
-  <link rel="stylesheet" href="css/style.css?v=3.0.7">
+  <link rel="stylesheet" href="css/style.css?v=3.0.8">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
   {
@@ -66,6 +66,8 @@
   <main id="conteudo">
     <section class="hero">
       <img class="hero-bg" src="assets/images/foto-hero.jpg" alt="" width="1920" height="1282" fetchpriority="high">
+      <!-- só no celular: js/main.js põe o src e dá play -->
+      <video class="hero-bg hero-video" muted loop playsinline preload="none" aria-hidden="true" data-src="assets/videos/hero-video.mp4" data-poster="assets/images/hero-poster.jpg"></video>
       <canvas class="ink" aria-hidden="true"></canvas>
       <div class="hero-in">
         <h1 class="logo-slot">
@@ -136,16 +138,9 @@
         <h2 class="titulo">Agenda <em>2026</em></h2>
         <p class="tag">// Próximas datas</p>
       </div>
-      <!-- As datas vêm de agenda.json (na raiz do projeto); quem monta a tabela é o js/main.js. -->
+      <!-- As datas vêm de agenda.json (na raiz do projeto); quem monta os cartões (um por dia) é o js/main.js. -->
       <p class="aviso" id="agenda-aviso" hidden></p>
-      <table class="tabela">
-        <thead>
-          <tr><th>Data</th><th>Cidade</th><th>Evento / local</th><th>Situação</th><th><span class="sr">Ação</span></th></tr>
-        </thead>
-        <tbody id="agenda-corpo">
-          <tr><td colspan="5">Carregando a agenda…</td></tr>
-        </tbody>
-      </table>
+      <div class="dias" id="agenda-corpo"><p class="nota">Carregando a agenda…</p></div>
       <noscript><p class="nota">Veja a agenda atualizada no Instagram @dj_laroca.</p></noscript>
     </section>
 
@@ -219,7 +214,7 @@
   <div class="peek" aria-hidden="true"><img alt=""></div>
   <div class="cursor" aria-hidden="true"></div>
 
-  <script src="js/ink.js?v=3.0.7" defer></script>
-  <script src="js/main.js?v=3.0.7" defer></script>
+  <script src="js/ink.js?v=3.0.8" defer></script>
+  <script src="js/main.js?v=3.0.8" defer></script>
 </body>
 </html>

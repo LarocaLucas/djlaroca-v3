@@ -42,27 +42,46 @@
   $$('.faixas, .linha').forEach(linhas);
   $$('.slot').forEach((el, k) => el.style.setProperty('--k', k));
 
-  /* Agenda: lida de agenda.json, para o dono editar direto no GitHub */
+  /* Agenda: lida de agenda.json (o dono edita no GitHub). Um cartão por dia;
+     dia que já passou fica apagado, com glitch, e vira "Realizado". */
   const corpo = $('#agenda-corpo'), aviso = $('#agenda-aviso');
-  const celulas = (tr, ...textos) => textos.forEach(t => { const td = document.createElement('td'); td.append(t); tr.append(td); });
+  const cria = (tag, classe, texto) => { const e = document.createElement(tag); if (classe) e.className = classe; if (texto != null) e.textContent = texto; return e; };
+  const comGlitch = (tag, classe, texto) => { const e = cria(tag, (classe + ' glitch').trim(), texto); e.dataset.t = texto; return e; };
   fetch('agenda.json', { cache: 'no-cache' }).then(r => r.json()).then(ag => {
     const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });   // AAAA-MM-DD
+    const dias = new Map();
+    for (const d of [...ag.datas].sort((a, b) => a.data.localeCompare(b.data))) dias.set(d.data, [...(dias.get(d.data) || []), d]);
     corpo.textContent = '';
     if (ag.aviso) { aviso.textContent = ag.aviso; aviso.hidden = false; }
-    ag.datas.forEach((d, k) => {
-      const tr = document.createElement('tr'), passou = d.data < hoje;
-      const quando = new Date(d.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ de |\./g, ' ').replace(/ +/g, ' ');
-      tr.dataset.img = caminho(k * 9 % total + 1);
-      if (passou) tr.className = 'passou';
-      celulas(tr, quando, d.cidade, d.local, passou ? 'Realizado' : d.situacao, '');
-      corpo.append(tr);
-    });
-    const livre = document.createElement('tr'), pill = document.createElement('a');
-    livre.className = 'livre'; pill.className = 'pill'; pill.href = '#contato'; pill.textContent = 'Reservar';
-    celulas(livre, 'Sua data', 'Sua cidade', 'Casas noturnas, festas, festivais e eventos privados', 'Disponível', pill);
+    let k = 0;
+    for (const [data, shows] of dias) {
+      const passou = data < hoje, dt = new Date(data + 'T12:00:00'), parte = o => dt.toLocaleDateString('pt-BR', o).replace('.', '');
+      const situacao = passou ? 'Realizado' : shows.every(s => s.situacao === shows[0].situacao) ? shows[0].situacao : 'Confirmado';
+      const dia = cria('article', passou ? 'dia passou' : 'dia'), topo = cria('header'), lista = cria('ul');
+      dia.dataset.img = caminho(k++ * 9 % total + 1);
+      topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), cria('span', 'dia-m', `${parte({ month: 'short' })} · ${parte({ weekday: 'short' })}`), cria('span', 'dia-s', situacao));
+      for (const s of shows) {
+        const li = cria('li');
+        li.append(comGlitch('b', '', s.local), cria('span', '', s.cidade + (!passou && s.situacao !== situacao ? ` · ${s.situacao}` : '')));
+        lista.append(li);
+      }
+      dia.append(topo, lista);
+      corpo.append(dia);
+    }
+    const livre = cria('article', 'dia livre'), topo = cria('header'), pill = cria('a', 'pill', 'Reservar');
+    pill.href = '#contato';
+    topo.append(cria('span', 'dia-n', '+'), cria('span', 'dia-m', 'Sua data'), cria('span', 'dia-s', 'Disponível'));
+    livre.append(topo, cria('p', '', 'Casas noturnas, festas, festivais e eventos privados em todo o Brasil.'), pill);
     corpo.append(livre);
-    linhas(corpo);
-  }).catch(() => { corpo.firstElementChild.firstElementChild.textContent = 'Agenda indisponível no momento. Veja as próximas datas no Instagram @dj_laroca.'; corpo.firstElementChild.classList.add('in'); });
+    $$(':scope > *', corpo).forEach((el, n) => { el.style.setProperty('--k', n % 8); entra.observe(el); });
+  }).catch(() => { corpo.textContent = ''; corpo.append(cria('p', 'nota', 'Agenda indisponível no momento. Veja as próximas datas no Instagram @dj_laroca.')); });
+
+  /* Vídeo de fundo do hero só no celular (no computador fica a foto) */
+  const video = $('.hero-video');
+  if (matchMedia('(max-width: 820px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.poster = video.dataset.poster; video.src = video.dataset.src;
+    video.play().catch(() => {});
+  }
 
   /* Efeitos presos à rolagem: --s = 0 quando o elemento entra por baixo, 1 quando sai por cima */
   const presos = $$('[data-scrub]');
@@ -163,7 +182,7 @@
   /* Agenda: foto flutuante ao passar por uma data */
   const peek = $('.peek'), peekImg = $('img', peek);
   corpo.addEventListener('pointermove', e => {
-    const tr = e.target.closest('tr[data-img]');
+    const tr = e.target.closest('[data-img]');
     peek.classList.toggle('on', !!tr);
     if (!tr) return;
     if (!peekImg.src.endsWith(tr.dataset.img)) peekImg.src = tr.dataset.img;

@@ -16,9 +16,9 @@ Prévia da nova versão do [djlaroca.com.br](https://djlaroca.com.br/): site est
 ## Como editar a agenda pelo GitHub
 1. Abra `agenda.json` no repositório e clique no lápis (Edit this file).
 2. Altere só o que está entre aspas:
-   - `aviso`: a mensagem em destaque acima da tabela. Deixe `""` para esconder.
+   - `aviso`: a mensagem em destaque acima da agenda. Deixe `""` para esconder.
    - cada linha de `datas` é um show: `data` (formato `AAAA-MM-DD`), `local`, `cidade` e `situacao`.
 3. Para um show novo, copie uma linha inteira e cole abaixo. Todas as linhas terminam com vírgula, **menos a última**.
 4. Clique em **Commit changes**. O site atualiza sozinho em cerca de um minuto.
 
-Datas que já passaram aparecem apagadas e com a situação "Realizado", sem precisar editar. Se o arquivo ficar com erro (vírgula ou aspas faltando), o site mostra "Agenda indisponível" até ser corrigido.
+Shows no mesmo dia aparecem juntos num cartão só. Datas que já passaram ficam apagadas, com efeito de glitch e a situação "Realizado", sem precisar editar. Se o arquivo ficar com erro (vírgula ou aspas faltando), o site mostra "Agenda indisponível" até ser corrigido.
