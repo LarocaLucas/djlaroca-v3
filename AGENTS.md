@@ -13,6 +13,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (ajuste 2)
+- **Feito:** logo do hero no meio-termo e centralizada (desktop: até 1060px / 76vw; celular: 90%). O dono achou 100% grande demais e 760px pequeno demais.
+- **Arquivos:** `css/style.css`.
+- **Testes:** medido na prévia online em 1440x900 e 390x844. Resultado: ok.
+- **Próximo passo:** seguir ouvindo a avaliação do dono.
 ### 08/10/2026 — Claude Code (ajuste)
 - **Feito:** logo do hero reduzida a pedido do dono (desktop: até 760px / 56vw; celular: 74% da largura).
 - **Arquivos:** `css/style.css`.
