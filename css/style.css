@@ -163,25 +163,35 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .dia.livre { border-style: dashed; border-color: var(--violet); }
 .dia.livre p { font-size: .86rem; color: var(--dim); line-height: 1.4; }
 .dia.livre .pill { justify-self: start; }
-/* dia que ainda vai acontecer: moldura do overlay do Laroca (assets/images/moldura.webp, 9 fatias:
-   cantos de 258x337 e bordas que esticam) crescendo a partir dos quatro cantos */
+/* dia que ainda vai acontecer: moldura gótica-cibernética desenhada em SVG (inspirada nos overlays do Laroca):
+   cantos chanfrados, linhas de circuito, lâminas e estrelas. Cresce a partir dos quatro cantos.
+   --bw = tamanho do canto na tela; o fundo (::after) é recortado no mesmo chanfro da linha principal. */
 @property --cresce { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-.dia.futuro { padding: 26px 24px; border-color: transparent; border-radius: 4px; background: rgba(240, 232, 255, .025); }
-.dia.futuro:hover { border-color: transparent; background: rgba(155, 48, 255, .09); }
+.dia.futuro { --bw: 74px; --fora: 9px; padding: 26px 24px; border-color: transparent; border-radius: 0; background: none; }
+.dia.futuro:hover { border-color: transparent; background: none; }
 .dia.futuro::before {
-  content: ''; position: absolute; inset: -11px; z-index: -1; pointer-events: none;
-  border-style: solid; border-color: transparent; border-width: 104px 80px;
-  border-image: url("../assets/images/moldura.webp") 337 258 / 104px 80px stretch;
+  content: ''; position: absolute; inset: calc(var(--fora) * -1); z-index: -1; pointer-events: none;
+  border: var(--bw) solid transparent;
+  border-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22 viewBox=%220 0 300 300%22%3E%3Cdefs%3E%3Cg id=%22c%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M120 22H56L22 56V120%22 stroke=%22%23f0e8ff%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M120 30H60L30 60V120%22 stroke=%22%23b98cff%22 stroke-width=%221.3%22/%3E%3Cpath d=%22M120 40H80L40 80V120%22 stroke=%22%23b98cff%22 stroke-width=%221%22/%3E%3Cpath d=%22M120 15H88l-6 6%22 stroke=%22%23b98cff%22 stroke-width=%221%22/%3E%3Cpath d=%22M15 120V88l6-6%22 stroke=%22%23b98cff%22 stroke-width=%221%22/%3E%3Cpath d=%22M66 46 46 66%22 stroke=%22%23f0e8ff%22 stroke-width=%221%22/%3E%3Cpath d=%22M96 40l8 9h14%22 stroke=%22%23b98cff%22 stroke-width=%22.9%22/%3E%3Cpath d=%22M40 96l9 8v14%22 stroke=%22%23b98cff%22 stroke-width=%22.9%22/%3E%3Cpath d=%22M80 40C94 54 108 54 117 47 108 49 98 46 92 40%22 stroke=%22%23f0e8ff%22 stroke-width=%221.1%22/%3E%3Cpath d=%22M40 80C54 94 54 108 47 117 49 108 46 98 40 92%22 stroke=%22%23f0e8ff%22 stroke-width=%221.1%22/%3E%3Cg fill=%22%23f0e8ff%22 stroke=%22none%22%3E%3Cpath d=%22M25 51Q11 23 2 2 23 11 51 25 35 30 25 51Z%22/%3E%3Cpath d=%22M62 22Q78 15 102 1 91 14 84 22Z%22/%3E%3Cpath d=%22M22 62Q15 78 1 102 14 91 22 84Z%22/%3E%3Cpath d=%22M44 34Q50 20 47 7 57 20 55 30Z%22/%3E%3Cpath d=%22M34 44Q20 50 7 47 20 57 30 55Z%22/%3E%3Cpath d=%22M104 12 106 20 114 22 106 24 104 32 102 24 94 22 102 20Z%22/%3E%3Cpath d=%22M22 96 23.500 102.500 30 104 23.500 105.500 22 112 20.500 105.500 14 104 20.500 102.500Z%22/%3E%3Ccircle cx=%2282%22 cy=%2221%22 r=%222%22/%3E%3Ccircle cx=%2221%22 cy=%2282%22 r=%222%22/%3E%3Ccircle cx=%22118%22 cy=%2249%22 r=%221.4%22/%3E%3Ccircle cx=%2249%22 cy=%22118%22 r=%221.4%22/%3E%3C/g%3E%3C/g%3E%3Cg id=%22e%22 fill=%22none%22%3E%3Cpath d=%22M120 22h60%22 stroke=%22%23f0e8ff%22 stroke-width=%222.4%22/%3E%3Cpath d=%22M120 30h60%22 stroke=%22%23b98cff%22 stroke-width=%221.3%22/%3E%3Cpath d=%22M120 40h60%22 stroke=%22%23b98cff%22 stroke-width=%221%22/%3E%3Cpath d=%22M150 17 155 22 150 27 145 22Z%22 fill=%22%23f0e8ff%22/%3E%3Cpath d=%22M150 40 153 49 147 49Z%22 fill=%22%23b98cff%22/%3E%3Cpath d=%22M132 15h10M158 15h10%22 stroke=%22%23b98cff%22 stroke-width=%221%22/%3E%3C/g%3E%3C/defs%3E%3Cuse href=%22%23c%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 0) scale(-1 1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(300 300) scale(-1 -1)%22/%3E%3Cuse href=%22%23e%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(0 300) scale(1 -1)%22/%3E%3Cuse href=%22%23e%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(300 0) scale(-1 1) matrix(0 1 1 0 0 0)%22/%3E%3C/svg%3E") 120 / var(--bw) round;
   --m: #000 var(--cresce), transparent calc(var(--cresce) + 10%);
   -webkit-mask: radial-gradient(circle at 0 0, var(--m)), radial-gradient(circle at 100% 0, var(--m)), radial-gradient(circle at 0 100%, var(--m)), radial-gradient(circle at 100% 100%, var(--m));
           mask: radial-gradient(circle at 0 0, var(--m)), radial-gradient(circle at 100% 0, var(--m)), radial-gradient(circle at 0 100%, var(--m)), radial-gradient(circle at 100% 100%, var(--m));
-  filter: drop-shadow(0 0 4px rgba(155, 48, 255, .9)) drop-shadow(0 0 12px rgba(155, 48, 255, .45));
-  transition: --cresce 2.2s var(--ease) calc(.5s + var(--k, 0) * 110ms), filter .4s, scale .6s var(--ease);
+  filter: drop-shadow(0 0 2px rgba(155, 48, 255, .95)) drop-shadow(0 0 5px rgba(155, 48, 255, .35));
+  transition: --cresce 2.2s var(--ease) calc(.5s + var(--k, 0) * 110ms), filter .4s;
   animation: pulsa 3.4s ease-in-out infinite alternate; animation-delay: calc(var(--k, 0) * -.6s);
 }
+/* fundo e luz do hover no formato da moldura (chanfrado), não num retângulo */
+.dia.futuro::after {
+  --rec: calc(var(--bw) * .1833 - var(--fora)); --ch: calc(var(--bw) * .2833);
+  content: ''; position: absolute; inset: var(--rec); z-index: -2; pointer-events: none;
+  clip-path: polygon(var(--ch) 0, calc(100% - var(--ch)) 0, 100% var(--ch), 100% calc(100% - var(--ch)), calc(100% - var(--ch)) 100%, var(--ch) 100%, 0 calc(100% - var(--ch)), 0 var(--ch));
+  background: radial-gradient(120% 90% at 50% 0, rgba(155, 48, 255, .42), rgba(155, 48, 255, .1) 70%), rgba(240, 232, 255, .03);
+  opacity: .16; transition: opacity .45s;
+}
 .dia.futuro.in::before { --cresce: 62%; }
-.dia.futuro:hover::before { scale: 1.035; filter: drop-shadow(0 0 5px var(--neon)) drop-shadow(0 0 18px var(--violet)); }
-@keyframes pulsa { from { opacity: .72; } to { opacity: 1; } }
+.dia.futuro:hover::before { filter: brightness(1.25) drop-shadow(0 0 2px var(--neon)) drop-shadow(0 0 6px var(--violet)); }
+.dia.futuro:hover::after { opacity: 1; }
+@keyframes pulsa { from { opacity: .75; } to { opacity: 1; } }
 
 /* dia que já passou: o cartão inteiro falha (glitch), não só os textos */
 .dia.passou { border-color: rgba(240, 232, 255, .1); }
@@ -310,8 +320,7 @@ main > section.contato { background: linear-gradient(to bottom, var(--ink), #2a0
   .hero-video[src] { display: block; }
   .dias { grid-template-columns: repeat(2, 1fr); gap: 16px 14px; }
   .dia { padding: 14px 12px; }
-  .dia.futuro { padding: 20px 16px; }
-  .dia.futuro::before { inset: -8px; border-width: 78px 60px; border-image-width: 78px 60px; }
+  .dia.futuro { --bw: 54px; --fora: 7px; padding: 20px 16px; }
   .dia header { flex-wrap: wrap; }
   .dia-s { margin-left: 0; }
   .sobre-foot { grid-template-columns: 1fr; }

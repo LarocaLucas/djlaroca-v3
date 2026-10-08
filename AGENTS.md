@@ -14,6 +14,12 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (moldura original)
+- **Feito:** o dono não quis o recorte do overlay dele ("quero que crie algo baseado nele") e reclamou da luz quadrada no hover. A moldura dos cartões futuros agora é um desenho original em SVG, embutido no CSS (`.dia.futuro::before`): cantos chanfrados, três linhas de circuito, lâminas góticas, gavinhas e estrelas, com losangos repetidos nas bordas. Fundo e luz do hover ficam em `::after`, recortados no mesmo chanfro da linha principal (`--bw` = tamanho do canto); halo reduzido para acompanhar as linhas. `assets/images/moldura.webp` removida.
+- **Regra:** os overlays do dono (`Overlay BAD*.png`, fora do git) são referência de estilo, não material para recortar.
+- **Arquivos:** `css/style.css`, `index.html`, `assets/images/moldura.webp` (removido).
+- **Testes:** Chrome 900x640 @2x: moldura nos 7 cartões futuros; hover simulado por classe mostra luz chanfrada. Não testado: hover real com o mouse, celular.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (moldura do overlay do dono)
 - **Feito:** o dono não gostou da moldura de espinhos e deixou dois overlays de referência na raiz (`Overlay BAD Laroca *.png`, fora do git). A moldura dos cartões futuros agora é `assets/images/moldura.webp`: canto superior esquerdo + trechos lisos das bordas do overlay branco, espelhados (sem o "LAROCA"), usada como `border-image` de 9 fatias em `.dia.futuro::before`, com brilho roxo; continua crescendo dos cantos, pulsando e reagindo ao hover. Cartões futuros perderam a borda arredondada própria; espaço entre cartões maior.
 - **Arquivos:** `assets/images/moldura.webp` (novo), `css/style.css`, `index.html`, `.gitignore`.
