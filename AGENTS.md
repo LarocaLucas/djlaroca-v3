@@ -14,6 +14,12 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (moldura gótica, luz do hover corrigida)
+- **Feito:** o dono reprovou a moldura anterior ("não combina nem com gótico nem com cyberpunk", quer mais gótico; os overlays são só referência). Nova moldura SVG em `.dia.futuro::before`: duas linhas finas que se cruzam e passam do canto em agulha, arcos finos, espinhos e agulha diagonal nos cantos; bordas lisas; brasão (adaga com asas) no meio do topo em `::after`. Sem fundo preenchido no cartão.
+- **Causa da "luz quadrada" do hover:** a máscara do crescimento (permanente) cortava o `drop-shadow` no retângulo do elemento. Agora a máscara só existe dentro do `@keyframes cresce` e vira `none` no fim; o brilho do hover é só `drop-shadow` das linhas. `mask-clip: no-clip` foi testado e não resolveu no Chrome.
+- **Arquivos:** `css/style.css`, `index.html`. Gerador do SVG ficou só no scratchpad da sessão (o SVG está embutido no CSS).
+- **Testes:** Chrome 1440x900 e 900x640 @2x: moldura nos 7 cartões futuros, hover simulado por classe com brilho suave sem corte. Não testado: hover real com mouse, celular.
+- **Próximo passo:** avaliação do dono sobre o desenho.
 ### 08/10/2026 — Claude Code (moldura original)
 - **Feito:** o dono não quis o recorte do overlay dele ("quero que crie algo baseado nele") e reclamou da luz quadrada no hover. A moldura dos cartões futuros agora é um desenho original em SVG, embutido no CSS (`.dia.futuro::before`): cantos chanfrados, três linhas de circuito, lâminas góticas, gavinhas e estrelas, com losangos repetidos nas bordas. Fundo e luz do hover ficam em `::after`, recortados no mesmo chanfro da linha principal (`--bw` = tamanho do canto); halo reduzido para acompanhar as linhas. `assets/images/moldura.webp` removida.
 - **Regra:** os overlays do dono (`Overlay BAD*.png`, fora do git) são referência de estilo, não material para recortar.
