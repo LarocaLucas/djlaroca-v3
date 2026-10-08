@@ -83,8 +83,9 @@ void main(){
   };
   const carrega = src => new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = erro; i.src = src; });
 
-  let raio = 20, larg = 1, recuo = 0, ox = 0, oy = 0, rodando = false, visivel = true, ultimo = 0, atividade = 0, varre = 0, pos = null;
+  let raio = 20, larg = 1, recuo = 0, ox = 0, oy = 0, rodando = false, ultimo = 0, atividade = 0, varre = 0, pos = null;
   const gotas = [];
+  const visivel = () => scrollY < hero.offsetHeight * .9;   // hero é sticky: some quando as seções o cobrem
 
   // O canvas cobre só uma faixa em volta da logo (não o hero inteiro): menos pixels por quadro.
   function mede() {
@@ -156,14 +157,14 @@ void main(){
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mask);
     gl.uniform1f(U('uT'), agora / 1000);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    rodando = visivel && agora - atividade < 4000;     // parado: desliga o laço
+    rodando = visivel() && agora - atividade < 4000;     // parado: desliga o laço
     if (rodando) requestAnimationFrame(quadro);
   }
   function acorda() {
     atividade = performance.now();
-    if (!rodando && visivel) { rodando = true; ultimo = atividade; requestAnimationFrame(quadro); }
+    if (!rodando && visivel()) { rodando = true; ultimo = atividade; requestAnimationFrame(quadro); }
   }
-  const varredura = () => { if (visivel && !varre) { pos = null; varre = performance.now(); acorda(); } };
+  const varredura = () => { if (visivel() && !varre) { pos = null; varre = performance.now(); acorda(); } };
 
   Promise.all([carrega('assets/images/logo-glitch.webp'), carrega('assets/images/logo-gotica.webp')]).then(([a, b]) => {
     textura(0, a); textura(1, b); textura(2, mask);
@@ -171,7 +172,6 @@ void main(){
     mede();
     hero.classList.add('ink-on');
     new ResizeObserver(() => { mede(); acorda(); }).observe(hero);
-    new IntersectionObserver(([e]) => { visivel = e.isIntersecting; if (visivel) acorda(); }).observe(hero);
     hero.addEventListener('pointermove', e => { const H = hero.getBoundingClientRect(); varre = 0; pinta(e.clientX - H.left, e.clientY - H.top); });
     hero.addEventListener('pointerleave', () => { pos = null; });
     hero.addEventListener('pointerdown', () => { pos = null; });

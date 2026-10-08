@@ -14,6 +14,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (fluidez e mais fotos)
+- **Feito:** galeria com 15 posições no desktop (3 fileiras) e 8 no celular, troca a cada 1,8 s. Transições: hero fixo (sticky) que escurece enquanto as seções sobem por cima dele; blocos de cada seção entram subindo e saindo do desfoque; linhas das listas sobem ao aparecer. Com o hero sticky, a tinta passa a checar a rolagem (não mais IntersectionObserver) para parar quando o hero está coberto.
+- **Arquivos:** `index.html`, `css/style.css`, `js/main.js`, `js/ink.js`.
+- **Testes:** Chrome 1440x900: cortina do hero, galeria cheia, todos os blocos revelados ao rolar a página inteira, sem rolagem horizontal. Não testado: celular.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (conteúdo e galeria)
 - **Feito:** copy reescrita com posicionamento nacional (hero, sobre, estilos, histórico, contato, metadados); números atualizados (50+ shows nacionais); estilos viraram funk, rave funk, ritmada, bruxaria e nostalgia; player trocado do SoundCloud para a playlist do Spotify; galeria refeita como fotos espalhadas (9 posições no desktop, 6 no celular) que trocam sozinhas a cada 2,4 s, sem botão "ver todas" (clicar ainda amplia).
 - **Arquivos:** `index.html`, `css/style.css`, `js/main.js`.

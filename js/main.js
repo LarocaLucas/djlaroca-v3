@@ -8,7 +8,11 @@
   const tique = () => { relogio.textContent = new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }); };
   tique(); setInterval(tique, 1000);
   $('#ano').textContent = new Date().getFullYear();
-  addEventListener('scroll', () => document.documentElement.classList.toggle('rolou', scrollY > 80), { passive: true });
+  const hero = $('.hero');
+  addEventListener('scroll', () => {
+    document.documentElement.classList.toggle('rolou', scrollY > 80);
+    hero.style.setProperty('--p', Math.min(scrollY / hero.offsetHeight, 1).toFixed(3));   // escurece o hero enquanto é coberto
+  }, { passive: true });
 
   /* Menu em tela cheia */
   const btnMenu = $('.top-menu'), menu = $('#menu');
@@ -33,6 +37,11 @@
     for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); entra.unobserve(e.target); }
   }, { threshold: .25 });
   $$('[data-split], .faixas li, .tabela tbody tr, .linha li').forEach(el => entra.observe(el));
+  const sobe = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); sobe.unobserve(e.target); }
+  }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
+  $$('.row-tags, .sobre > .tag, .sobre-foot > *, .capa, .player, .mesa, .nota, .contato .tag, .contato-txt, .contato-acoes')
+    .forEach(el => { el.dataset.rev = ''; sobe.observe(el); });
 
   /* Galeria: fotos espalhadas como sobre uma mesa. De tempos em tempos uma foto
      nova é "jogada" por cima de uma das posições, até passar por todas. */
@@ -65,7 +74,7 @@
     img.src = caminho(n);
   };
   new IntersectionObserver(([e]) => { mesaVisivel = e.isIntersecting; }, { threshold: .15 }).observe(mesa);
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(joga, 2400);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(joga, 1800);
 
   let atual = 1;
   const mostra = n => { atual = (n - 1 + total) % total + 1; visorImg.src = caminho(atual); visorImg.alt = `Foto ${atual} de ${total}`; };
