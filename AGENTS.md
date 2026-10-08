@@ -14,6 +14,11 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (garras góticas, glitch no cartão inteiro)
+- **Feito:** cartões de datas futuras ganham garras góticas (SVG `#garra` no `index.html`, 4 por cartão) que crescem dos cantos ao aparecer, "respiram" e apertam no hover; cartões de datas passadas falham inteiros (tremor, quadros fantasmas e todos os textos com glitch); conteúdo padronizado (local em cima, cidade embaixo); vídeo do hero no celular mais escuro (brilho .36).
+- **Arquivos:** `index.html`, `css/style.css`, `js/main.js`.
+- **Testes:** Chrome 1440x900: garras nos 7 cartões futuros, glitch de bloco nos 2 passados, sem rolagem horizontal. Não testado: celular nesta rodada (tamanho das garras em cartão estreito, escurecimento do vídeo).
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (glitch mais forte, faixa mais rápida, cartões)
 - **Feito:** glitch das datas passadas mais forte e frequente (ciclo de 1,7 s, deslocamentos maiores); faixa de estilos em 9 s por volta; título "Conheça um pouco do estilo musical do Laroca" acima da playlist; cartões da agenda sem vazamento (mês e dia da semana empilhados, cabeçalho pode quebrar linha).
 - **Correção:** os degradês roxos de `.som` e `.contato` estavam cobertos de preto desde a rodada das transições, porque `main > section:not(.hero)` tem especificidade maior que `main > .som`; agora são `main > section.som` e `main > section.contato`.

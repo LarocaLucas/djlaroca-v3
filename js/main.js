@@ -47,6 +47,16 @@
   const corpo = $('#agenda-corpo'), aviso = $('#agenda-aviso');
   const cria = (tag, classe, texto) => { const e = document.createElement(tag); if (classe) e.className = classe; if (texto != null) e.textContent = texto; return e; };
   const comGlitch = (tag, classe, texto) => { const e = cria(tag, (classe + ' glitch').trim(), texto); e.dataset.t = texto; return e; };
+  // garra gótica num canto do cartão (1 a 4, sentido de leitura); o desenho é o <symbol id="garra"> do index.html
+  const SVG = 'http://www.w3.org/2000/svg', ESPELHO = ['', 'translate(100,0) scale(-1,1)', 'translate(0,100) scale(1,-1)', 'translate(100,100) scale(-1,-1)'];
+  const garra = g => {
+    const svg = document.createElementNS(SVG, 'svg'), use = document.createElementNS(SVG, 'use');
+    svg.setAttribute('class', `garra g${g}`); svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('aria-hidden', 'true');
+    svg.style.setProperty('--g', g);
+    use.setAttribute('href', '#garra'); if (ESPELHO[g - 1]) use.setAttribute('transform', ESPELHO[g - 1]);
+    svg.append(use);
+    return svg;
+  };
   fetch('agenda.json', { cache: 'no-cache' }).then(r => r.json()).then(ag => {
     const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });   // AAAA-MM-DD
     const dias = new Map();
@@ -59,13 +69,14 @@
       const situacao = passou ? 'Realizado' : shows.every(s => s.situacao === shows[0].situacao) ? shows[0].situacao : 'Confirmado';
       const dia = cria('article', passou ? 'dia passou' : 'dia'), topo = cria('header'), lista = cria('ul');
       dia.dataset.img = caminho(k++ * 9 % total + 1);
-      topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), cria('span', 'dia-m', parte({ month: 'short' }) + String.fromCharCode(10) + parte({ weekday: 'short' })), cria('span', 'dia-s', situacao));
+      topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), comGlitch('span', 'dia-m', parte({ month: 'short' }) + String.fromCharCode(10) + parte({ weekday: 'short' })), comGlitch('span', 'dia-s', situacao));
       for (const s of shows) {
         const li = cria('li');
-        li.append(comGlitch('b', '', s.local), cria('span', '', s.cidade + (!passou && s.situacao !== situacao ? ` · ${s.situacao}` : '')));
+        li.append(comGlitch('b', '', s.local), comGlitch('span', '', s.cidade + (!passou && s.situacao !== situacao ? ` · ${s.situacao}` : '')));
         lista.append(li);
       }
       dia.append(topo, lista);
+      if (!passou) dia.append(garra(1), garra(2), garra(3), garra(4));
       corpo.append(dia);
     }
     const livre = cria('article', 'dia livre'), topo = cria('header'), pill = cria('a', 'pill', 'Reservar');

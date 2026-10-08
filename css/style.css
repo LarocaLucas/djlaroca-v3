@@ -93,7 +93,7 @@ main > section:not(.hero) { position: relative; z-index: 1; background: var(--in
   background: linear-gradient(to bottom, rgba(6, 4, 8, .82), rgba(6, 4, 8, .1) 42%, rgba(6, 4, 8, .35) 70%, var(--ink)),
               radial-gradient(90% 70% at 70% 45%, rgba(155, 48, 255, .28), transparent 70%);
 }
-.hero-video { display: none; }
+.hero-video { display: none; filter: saturate(1.15) contrast(1.05) brightness(.36); }
 .ink { position: absolute; left: 0; top: 0; pointer-events: none; } /* tamanho e posição: js/ink.js */
 .hero-in { position: relative; flex: 1; display: flex; flex-direction: column; padding: clamp(84px, 13vh, 130px) var(--gutter) clamp(20px, 4vh, 40px); }
 .logo-slot { position: relative; width: min(100%, 1060px, 76vw); margin: auto auto 0; aspect-ratio: 2048 / 590; }
@@ -150,19 +150,37 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .dias { margin-top: clamp(20px, 4vh, 40px); display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
 .dia { display: grid; align-content: start; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(240, 232, 255, .03); transition: border-color .3s, background .3s, translate .4s var(--ease); }
 .dia:hover { border-color: var(--violet); background: rgba(155, 48, 255, .1); translate: 0 -4px; }
-.dia { min-width: 0; }
+.dia { min-width: 0; position: relative; isolation: isolate; }
 .dia header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; }
 .dia-n { font-size: clamp(2.6rem, 4vw, 3.6rem); font-weight: 600; letter-spacing: -.05em; line-height: .9; font-variant-numeric: tabular-nums; }
 .dia-m { font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); white-space: pre-line; line-height: 1.25; }
 .dia-s { margin-left: auto; padding: 4px 10px; border: 1px solid var(--line); border-radius: 99px; font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--neon); white-space: nowrap; }
-.dia li { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 2px 12px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .92rem; }
+/* sempre o local em cima e a cidade embaixo */
+.dia li { display: grid; justify-items: start; gap: 1px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .95rem; }
 .dia b { font-weight: 500; }
 .dia li > * { min-width: 0; overflow-wrap: anywhere; }
 .dia li span { font-size: .78rem; color: var(--dim); }
 .dia.livre { border-style: dashed; border-color: var(--violet); }
 .dia.livre p { font-size: .86rem; color: var(--dim); line-height: 1.4; }
 .dia.livre .pill { justify-self: start; }
-/* data que já passou: apagada e com falhas de sinal (glitch) */
+/* dia que ainda vai acontecer: garras góticas saem dos cantos e agarram o cartão */
+.garra { position: absolute; z-index: -1; width: clamp(30px, 22%, 58px); aspect-ratio: 1; overflow: visible; fill: #6a1fc4; pointer-events: none; filter: drop-shadow(0 0 6px rgba(155, 48, 255, .55)); scale: 0; opacity: .9;
+  transition: scale 1s var(--ease) calc(.45s + var(--k, 0) * 80ms + var(--g) * 110ms), fill .4s; animation: respira 3.2s ease-in-out infinite alternate; animation-delay: calc(var(--g) * -.8s); }
+.g1 { left: -1px; top: -1px; transform-origin: 0 0; }
+.g2 { right: -1px; top: -1px; transform-origin: 100% 0; }
+.g3 { left: -1px; bottom: -1px; transform-origin: 0 100%; }
+.g4 { right: -1px; bottom: -1px; transform-origin: 100% 100%; }
+.dia.in .garra { scale: 1; }
+.dia.in:hover .garra { scale: 1.7; fill: var(--neon); transition: scale .5s var(--ease), fill .3s; }
+@keyframes respira { from { rotate: -3deg; } to { rotate: 4deg; } }
+
+/* dia que já passou: o cartão inteiro falha (glitch), não só os textos */
+.dia.passou { border-color: rgba(240, 232, 255, .1); }
+.js .dia.passou.in { animation: linha-in .9s var(--ease) both, bloco-glitch 2.1s steps(1) infinite; animation-delay: calc(var(--k, 0) * 80ms), calc(var(--k, 0) * -.37s); }
+.dia.passou::before, .dia.passou::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--neon); border-radius: inherit; background: rgba(217, 102, 255, .1); pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 2.1s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.37s); }
+.dia.passou::after { border-color: #fff; background: rgba(255, 255, 255, .07); animation-name: glitch-b; }
+@keyframes bloco-glitch { 0%, 58%, 100% { transform: none; filter: none; } 60% { transform: translateX(-7px) skewX(-5deg); filter: hue-rotate(50deg) contrast(1.4); } 64% { transform: translateX(6px); filter: none; } 68% { transform: translate(-4px, 2px) skewX(7deg); filter: brightness(1.7); } 72% { transform: translateX(8px) skewX(-3deg); filter: none; } 76% { transform: none; filter: invert(.15) saturate(2); } 82% { transform: translateX(-5px) scaleY(1.03); filter: none; } 88% { transform: translateX(4px); filter: hue-rotate(-40deg); } 92% { transform: none; filter: none; } }
+/* e os textos também */
 .dia.passou :is(.dia-n, b) { color: var(--dim); }
 .dia.passou .dia-s { color: var(--dim); }
 .glitch { position: relative; display: inline-block; }
