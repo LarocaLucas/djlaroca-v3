@@ -1,0 +1,18 @@
+{
+  "_como_editar": "Edite só o que está entre aspas. 'data' no formato AAAA-MM-DD. Cada show é um bloco entre chaves, separado por vírgula (o último não leva vírgula depois). 'aviso' é a mensagem em destaque acima da tabela; deixe \"\" para esconder.",
+  "aviso": "Poucos encaixes para outubro. A agenda do restante do ano já está aberta.",
+  "datas": [
+    { "data": "2026-10-09", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-10", "local": "Monkey", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-10", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-11", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-11", "local": "Garden", "cidade": "Castro, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-16", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-16", "local": "Formatura Colégio Positivo", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-17", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-23", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-24", "local": "Bravosween", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-24", "local": "Door", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" },
+    { "data": "2026-10-24", "local": "Resenha Balada", "cidade": "Ponta Grossa, PR", "situacao": "Confirmado" }
+  ]
+}
