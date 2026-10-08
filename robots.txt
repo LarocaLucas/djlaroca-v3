@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /extras/
+
+Sitemap: https://djlaroca.com.br/sitemap.xml

@@ -15,6 +15,13 @@
 - Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 08/10/2026 — Claude Code (SEO local)
+- **Motivo:** o dono buscou "dj em castro pr" no Google e o DJ Reinaldo apareceu, o DJ Laroca não. A copy nacional tinha tirado Castro e Ponta Grossa do título, da descrição e do texto; voltaram, sem abandonar o posicionamento nacional ("base em Castro e Ponta Grossa, PR; shows em todo o Brasil").
+- **SEO (feito):** título e descrição com "DJ em Castro e Ponta Grossa, PR", dados estruturados (`WebSite` + negócio com endereço em Castro/PR e área atendida), `robots.txt`, `sitemap.xml`, `404.html` (antes qualquer endereço inexistente devolvia a página inicial com código 200) e, no Cloudflare, regra de redirecionamento 301 de `www` para o domínio raiz.
+- **SEO (depende do dono, exige login na conta Google):** criar a propriedade de domínio no Google Search Console, passar o código `google-site-verification` para entrar no DNS (Cloudflare), enviar o sitemap e pedir indexação da página inicial; criar ou reivindicar o Perfil da Empresa no Google (é o que mais pesa em buscas locais como "dj em castro pr").
+- **Arquivos:** `index.html`, `robots.txt`, `sitemap.xml`, `404.html`.
+- **Testes:** JSON-LD válido (parse), título com 70 caracteres e descrição com 138; no ar: robots, sitemap, 404 e redirecionamento do `www` conferidos por HTTP. Não testado: Rich Results Test do Google.
+- **Próximo passo:** dono fazer a parte do Search Console e do Perfil da Empresa.
 ### 08/10/2026 — Claude Code (site no ar)
 - **Feito:** a pedido do dono, a v3 foi ao ar em djlaroca.com.br. O projeto antigo do Cloudflare Pages não aceita trocar de repositório (o PATCH é ignorado), então foi criado o projeto `djlaroca-v3` ligado a este repositório; os domínios `djlaroca.com.br` e `www` saíram do projeto antigo e entraram no novo, e os dois CNAME passaram a apontar para `djlaroca-v3.pages.dev`. Adicionados `_headers` (cache e segurança; `agenda.json` sem cache) e `_redirects`. GitHub Pages deste repositório desativado. Repositório antigo `LarocaLucas/djlaroca` tornado privado e arquivado.
 - **Arquivos:** `_headers`, `_redirects`, `README.md`, `CHANGELOG.md`.
