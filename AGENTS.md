@@ -15,6 +15,9 @@
 - Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 08/10/2026 — Claude Code (publicação automática)
+- **Problema:** depois de criado pela API, o projeto `djlaroca-v3` do Cloudflare Pages não publicava sozinho a cada push: só a primeira publicação (manual) tinha entrado, e os commits da v0.2.0 e do SEO ficaram fora do ar por horas.
+- **Como conferir:** listar as publicações do projeto e ver se o commit mais recente aparece. Publicação manual: `POST /accounts/{id}/pages/projects/djlaroca-v3/deployments` com `branch=main`.
 ### 08/10/2026 — Claude Code (SEO local)
 - **Motivo:** o dono buscou "dj em castro pr" no Google e o DJ Reinaldo apareceu, o DJ Laroca não. A copy nacional tinha tirado Castro e Ponta Grossa do título, da descrição e do texto; voltaram, sem abandonar o posicionamento nacional ("base em Castro e Ponta Grossa, PR; shows em todo o Brasil").
 - **SEO (feito):** título e descrição com "DJ em Castro e Ponta Grossa, PR", dados estruturados (`WebSite` + negócio com endereço em Castro/PR e área atendida), `robots.txt`, `sitemap.xml`, `404.html` (antes qualquer endereço inexistente devolvia a página inicial com código 200) e, no Cloudflare, regra de redirecionamento 301 de `www` para o domínio raiz.
