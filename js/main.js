@@ -59,7 +59,7 @@
       const situacao = passou ? 'Realizado' : shows.every(s => s.situacao === shows[0].situacao) ? shows[0].situacao : 'Confirmado';
       const dia = cria('article', passou ? 'dia passou' : 'dia'), topo = cria('header'), lista = cria('ul');
       dia.dataset.img = caminho(k++ * 9 % total + 1);
-      topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), cria('span', 'dia-m', `${parte({ month: 'short' })} · ${parte({ weekday: 'short' })}`), cria('span', 'dia-s', situacao));
+      topo.append(comGlitch('span', 'dia-n', String(dt.getDate()).padStart(2, '0')), cria('span', 'dia-m', parte({ month: 'short' }) + String.fromCharCode(10) + parte({ weekday: 'short' })), cria('span', 'dia-s', situacao));
       for (const s of shows) {
         const li = cria('li');
         li.append(comGlitch('b', '', s.local), cria('span', '', s.cidade + (!passou && s.situacao !== situacao ? ` · ${s.situacao}` : '')));
@@ -70,7 +70,7 @@
     }
     const livre = cria('article', 'dia livre'), topo = cria('header'), pill = cria('a', 'pill', 'Reservar');
     pill.href = '#contato';
-    topo.append(cria('span', 'dia-n', '+'), cria('span', 'dia-m', 'Sua data'), cria('span', 'dia-s', 'Disponível'));
+    topo.append(cria('span', 'dia-n', '+'), cria('span', 'dia-m', 'Sua\ndata'), cria('span', 'dia-s', 'Disponível'));
     livre.append(topo, cria('p', '', 'Casas noturnas, festas, festivais e eventos privados em todo o Brasil.'), pill);
     corpo.append(livre);
     $$(':scope > *', corpo).forEach((el, n) => { el.style.setProperty('--k', n % 8); entra.observe(el); });
@@ -112,7 +112,7 @@
   const sobe = new IntersectionObserver(es => {
     for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); sobe.unobserve(e.target); }
   }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
-  $$('.row-tags, .sobre > .tag, .sobre-foot > *, .rolante, .capa, .player, .aviso, .contato .tag, .contato-txt, .contato-acoes')
+  $$('.row-tags, .sobre > .tag, .sobre-foot > *, .rolante, .capa, .player-titulo, .player, .aviso, .contato .tag, .contato-txt, .contato-acoes')
     .forEach(el => { el.dataset.rev = ''; sobe.observe(el); });
 
   /* Galeria: fotos espalhadas como sobre uma mesa. De tempos em tempos uma foto

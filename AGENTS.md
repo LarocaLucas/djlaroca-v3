@@ -14,6 +14,12 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (glitch mais forte, faixa mais rápida, cartões)
+- **Feito:** glitch das datas passadas mais forte e frequente (ciclo de 1,7 s, deslocamentos maiores); faixa de estilos em 9 s por volta; título "Conheça um pouco do estilo musical do Laroca" acima da playlist; cartões da agenda sem vazamento (mês e dia da semana empilhados, cabeçalho pode quebrar linha).
+- **Correção:** os degradês roxos de `.som` e `.contato` estavam cobertos de preto desde a rodada das transições, porque `main > section:not(.hero)` tem especificidade maior que `main > .som`; agora são `main > section.som` e `main > section.contato`.
+- **Arquivos:** `css/style.css`, `js/main.js`, `index.html`.
+- **Testes:** Chrome 1440x900: nenhum elemento fora dos cartões em larguras de 227 a 360px, degradês de volta, sem rolagem horizontal. Não testado: celular nesta rodada.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (agenda em cartões, glitch, vídeo no celular)
 - **Feito:** agenda agrupada em um cartão por dia (15 shows viram 9 cartões + "Sua data"); dia passado fica apagado, com glitch no número e nos nomes, e vira "Realizado". Incluídas as datas de 02 e 03/10. No celular o hero usa o vídeo da v2 de fundo (o JS só carrega o vídeo em telas até 820px; no computador fica a foto). Faixa de estilos mais rápida (17 s). Hero no celular: as duas etiquetas em linhas separadas, sem quebrar o "]".
 - **Correções:** (1) a logo ficava em branco se a página abrisse já rolada e a pessoa voltasse ao topo: a tinta agora redesenha ao rolar de volta ao hero; (2) sobra lateral de 15px no celular causada pelos títulos que deslizam: seções com `overflow-x: clip`.
