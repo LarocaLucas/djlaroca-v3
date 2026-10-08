@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/images/logo-glitch.webp">
-  <link rel="stylesheet" href="css/style.css?v=3.0.6">
+  <link rel="stylesheet" href="css/style.css?v=3.0.7">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
   {
@@ -72,7 +72,7 @@
           <img src="assets/images/logo-glitch.webp" alt="DJ Laroca" width="2048" height="1152">
         </h1>
         <div class="hero-tags">
-          <p>DJ de funk // cena nacional</p>
+          <p>DJ de funk // open format // cena nacional</p>
           <p>[ Na pista desde 2014 ]</p>
         </div>
         <div class="hero-foot">
@@ -87,7 +87,7 @@
 
     <section class="sobre wrap" id="sobre">
       <p class="tag">// Sobre Laroca</p>
-      <p class="statement" data-split="words">Do funk à rave funk, da ritmada à bruxaria, com a nostalgia que faz a pista inteira cantar junto: o set do Laroca é uma mescla montada ao vivo, na leitura de cada público.</p>
+      <p class="statement" data-split="words" data-scrub>Do funk à rave funk, da ritmada à bruxaria, com a nostalgia que faz a pista inteira cantar junto: o set do Laroca é uma mescla montada ao vivo, na leitura de cada público.</p>
       <div class="sobre-foot">
         <p>Na estrada desde 2014, Lucas Laroca Campos soma mais de 50 shows nacionais, de casas noturnas a festivais, e leva a mesma energia para pistas de todo o Brasil.</p>
         <dl class="stats">
@@ -100,6 +100,7 @@
           <ul><li>Funk</li><li>Rave funk</li><li>Ritmada</li><li>Bruxaria</li><li>Nostalgia</li></ul>
         </div>
       </div>
+      <div class="rolante" aria-hidden="true"><div><span>Funk — Rave funk — Ritmada — Bruxaria — Nostalgia — Open format —</span><span>Funk — Rave funk — Ritmada — Bruxaria — Nostalgia — Open format —</span></div></div>
     </section>
 
     <section class="som" id="som">
@@ -108,8 +109,8 @@
           <p class="tag">// O som</p>
           <p class="tag">Uma mescla de tudo</p>
         </div>
-        <h2 class="mega" data-split="chars">A mescla</h2>
-        <a class="capa" href="https://open.spotify.com/playlist/47fOI9wSBwYHF0l2V6ni79" target="_blank" rel="noopener">
+        <h2 class="mega" data-split="chars" data-scrub>A mescla</h2>
+        <a class="capa" data-scrub href="https://open.spotify.com/playlist/47fOI9wSBwYHF0l2V6ni79" target="_blank" rel="noopener">
           <img src="assets/images/foto-sobre.jpg" alt="Arte de divulgação do DJ Laroca" loading="lazy" width="1064" height="2000">
           <svg viewBox="0 0 24 24" width="56" height="56" aria-hidden="true"><path fill="currentColor" d="M7 4v16l14-8z"/></svg>
           <span>Ouvir a playlist no Spotify</span>
@@ -135,20 +136,17 @@
         <h2 class="titulo">Agenda <em>2026</em></h2>
         <p class="tag">// Próximas datas</p>
       </div>
-      <!-- Agenda: uma <tr> por data. data-img = foto que aparece ao passar o mouse. -->
+      <!-- As datas vêm de agenda.json (na raiz do projeto); quem monta a tabela é o js/main.js. -->
+      <p class="aviso" id="agenda-aviso" hidden></p>
       <table class="tabela">
         <thead>
           <tr><th>Data</th><th>Cidade</th><th>Evento / local</th><th>Situação</th><th><span class="sr">Ação</span></th></tr>
         </thead>
-        <tbody>
-          <tr data-img="assets/images/galeria/foto-004.jpg"><td>17 out 2026</td><td>São Paulo, SP</td><td>Evento de exemplo</td><td>Confirmado</td><td><a class="pill pill-cor" href="https://instagram.com/dj_laroca" target="_blank" rel="noopener">Saber mais</a></td></tr>
-          <tr data-img="assets/images/galeria/foto-018.jpg"><td>31 out 2026</td><td>Curitiba, PR</td><td>Evento de exemplo</td><td>Confirmado</td><td><a class="pill pill-cor" href="https://instagram.com/dj_laroca" target="_blank" rel="noopener">Saber mais</a></td></tr>
-          <tr data-img="assets/images/galeria/foto-033.jpg"><td>14 nov 2026</td><td>Florianópolis, SC</td><td>Evento de exemplo</td><td>Confirmado</td><td><a class="pill pill-cor" href="https://instagram.com/dj_laroca" target="_blank" rel="noopener">Saber mais</a></td></tr>
-          <tr data-img="assets/images/galeria/foto-052.jpg"><td>05 dez 2026</td><td>Ponta Grossa, PR</td><td>Evento de exemplo</td><td>Confirmado</td><td><a class="pill pill-cor" href="https://instagram.com/dj_laroca" target="_blank" rel="noopener">Saber mais</a></td></tr>
-          <tr class="livre"><td>Sua data</td><td>Sua cidade</td><td>Casas noturnas, festas, festivais e eventos privados</td><td>Disponível</td><td><a class="pill" href="#contato">Reservar</a></td></tr>
+        <tbody id="agenda-corpo">
+          <tr><td colspan="5">Carregando a agenda…</td></tr>
         </tbody>
       </table>
-      <p class="nota">* Datas e cidades de exemplo nesta prévia; a agenda real entra antes da publicação.</p>
+      <noscript><p class="nota">Veja a agenda atualizada no Instagram @dj_laroca.</p></noscript>
     </section>
 
     <section class="historico wrap" id="historico">
@@ -192,7 +190,7 @@
     <section class="contato" id="contato">
       <div class="wrap">
         <p class="tag">// Contratar</p>
-        <h2 class="mega" data-split="chars">Sua pista</h2>
+        <h2 class="mega" data-split="chars" data-scrub>Sua pista</h2>
         <p class="contato-txt">Casas noturnas, festas, festivais e eventos privados em qualquer cidade do Brasil. Mande a data e o local no WhatsApp e receba o orçamento.</p>
         <div class="contato-acoes">
           <a class="pill pill-lg" href="https://wa.me/5542999884992?text=Ol%C3%A1%20DJ%20Laroca!%20Gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20contrata%C3%A7%C3%A3o.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
@@ -221,7 +219,7 @@
   <div class="peek" aria-hidden="true"><img alt=""></div>
   <div class="cursor" aria-hidden="true"></div>
 
-  <script src="js/ink.js?v=3.0.6" defer></script>
-  <script src="js/main.js?v=3.0.6" defer></script>
+  <script src="js/ink.js?v=3.0.7" defer></script>
+  <script src="js/main.js?v=3.0.7" defer></script>
 </body>
 </html>

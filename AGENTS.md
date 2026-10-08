@@ -11,9 +11,14 @@
 
 ## Estado atual
 - v0.1.0 no ar como prévia em https://larocalucas.github.io/djlaroca-v3/
-- Agenda com datas de exemplo (aguardando as reais).
+- Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (agenda real e mais animações)
+- **Feito:** agenda passa a vir de `agenda.json` (aviso + datas; 12 shows de outubro/2026), montada pelo `js/main.js`; datas passadas ficam apagadas como "Realizado". Hero: "DJ de funk // open format // cena nacional". Animações novas: frase do "sobre" acende palavra a palavra conforme a rolagem, números contam até o valor, faixa de texto correndo, títulos "A mescla"/"Sua pista" e a capa se movem com a rolagem, títulos de seção se revelam da esquerda, linhas das listas entram em sequência, fotos da mesa são jogadas uma a uma, agenda sobe com cantos arredondados sobre o degradê.
+- **Arquivos:** `agenda.json` (novo), `index.html`, `css/style.css`, `js/main.js`, `README.md`.
+- **Testes:** Chrome 1440x900: agenda com 12 datas + linha livre, aviso, todos os blocos revelados ao rolar, sem rolagem horizontal, console sem erros. Não testado: celular; caso de `agenda.json` inválido.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (fluidez e mais fotos)
 - **Feito:** galeria com 15 posições no desktop (3 fileiras) e 8 no celular, troca a cada 1,8 s. Transições: hero fixo (sticky) que escurece enquanto as seções sobem por cima dele; blocos de cada seção entram subindo e saindo do desfoque; linhas das listas sobem ao aparecer. Com o hero sticky, a tinta passa a checar a rolagem (não mais IntersectionObserver) para parar quando o hero está coberto.
 - **Arquivos:** `index.html`, `css/style.css`, `js/main.js`, `js/ink.js`.

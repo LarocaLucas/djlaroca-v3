@@ -30,17 +30,70 @@
   for (const el of $$('[data-split]')) {
     const porLetra = el.dataset.split === 'chars';
     el.setAttribute('aria-label', el.textContent);
+    el.style.setProperty('--n', el.textContent.split(porLetra ? '' : ' ').length);
     el.innerHTML = el.textContent.split(porLetra ? '' : ' ').map((p, i) =>
       `<span aria-hidden="true" style="--i:${i}">${p === ' ' ? '&nbsp;' : p}</span>`).join(porLetra ? '' : ' ');
   }
   const entra = new IntersectionObserver(es => {
     for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); entra.unobserve(e.target); }
   }, { threshold: .25 });
-  $$('[data-split], .faixas li, .tabela tbody tr, .linha li').forEach(el => entra.observe(el));
+  const linhas = pai => $$(':scope > *', pai).forEach((el, k) => { el.style.setProperty('--k', k % 6); entra.observe(el); });
+  $$('[data-split], .mesa').forEach(el => entra.observe(el));
+  $$('.faixas, .linha').forEach(linhas);
+  $$('.slot').forEach((el, k) => el.style.setProperty('--k', k));
+
+  /* Agenda: lida de agenda.json, para o dono editar direto no GitHub */
+  const corpo = $('#agenda-corpo'), aviso = $('#agenda-aviso');
+  const celulas = (tr, ...textos) => textos.forEach(t => { const td = document.createElement('td'); td.append(t); tr.append(td); });
+  fetch('agenda.json', { cache: 'no-cache' }).then(r => r.json()).then(ag => {
+    const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });   // AAAA-MM-DD
+    corpo.textContent = '';
+    if (ag.aviso) { aviso.textContent = ag.aviso; aviso.hidden = false; }
+    ag.datas.forEach((d, k) => {
+      const tr = document.createElement('tr'), passou = d.data < hoje;
+      const quando = new Date(d.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ de |\./g, ' ').replace(/ +/g, ' ');
+      tr.dataset.img = caminho(k * 9 % total + 1);
+      if (passou) tr.className = 'passou';
+      celulas(tr, quando, d.cidade, d.local, passou ? 'Realizado' : d.situacao, '');
+      corpo.append(tr);
+    });
+    const livre = document.createElement('tr'), pill = document.createElement('a');
+    livre.className = 'livre'; pill.className = 'pill'; pill.href = '#contato'; pill.textContent = 'Reservar';
+    celulas(livre, 'Sua data', 'Sua cidade', 'Casas noturnas, festas, festivais e eventos privados', 'Disponível', pill);
+    corpo.append(livre);
+    linhas(corpo);
+  }).catch(() => { corpo.firstElementChild.firstElementChild.textContent = 'Agenda indisponível no momento. Veja as próximas datas no Instagram @dj_laroca.'; corpo.firstElementChild.classList.add('in'); });
+
+  /* Efeitos presos à rolagem: --s = 0 quando o elemento entra por baixo, 1 quando sai por cima */
+  const presos = $$('[data-scrub]');
+  let aguardando = false;
+  const mede = () => {
+    aguardando = false;
+    for (const el of presos) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom > -200 && r.top < innerHeight + 200) el.style.setProperty('--s', Math.min(Math.max((innerHeight - r.top) / (innerHeight + r.height), 0), 1).toFixed(3));
+    }
+  };
+  const agenda_medida = () => { if (!aguardando) { aguardando = true; requestAnimationFrame(mede); } };
+  addEventListener('scroll', agenda_medida, { passive: true });
+  addEventListener('resize', agenda_medida);
+  mede();
+
+  /* Números do "sobre" contam até o valor quando aparecem */
+  const conta = new IntersectionObserver(es => {
+    for (const e of es) if (e.isIntersecting) {
+      conta.unobserve(e.target);
+      const [, antes, num, depois] = e.target.textContent.match(/^(\D*)(\d+)(.*)$/), t0 = performance.now();
+      const passo = t => { const p = Math.min((t - t0) / 1400, 1); e.target.textContent = antes + Math.round(num * (1 - (1 - p) ** 3)) + depois; if (p < 1) requestAnimationFrame(passo); };
+      requestAnimationFrame(passo);
+    }
+  }, { threshold: 1 });
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) $$('.stats dd').forEach(el => conta.observe(el));
+
   const sobe = new IntersectionObserver(es => {
     for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); sobe.unobserve(e.target); }
   }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
-  $$('.row-tags, .sobre > .tag, .sobre-foot > *, .capa, .player, .mesa, .nota, .contato .tag, .contato-txt, .contato-acoes')
+  $$('.row-tags, .sobre > .tag, .sobre-foot > *, .rolante, .capa, .player, .aviso, .contato .tag, .contato-txt, .contato-acoes')
     .forEach(el => { el.dataset.rev = ''; sobe.observe(el); });
 
   /* Galeria: fotos espalhadas como sobre uma mesa. De tempos em tempos uma foto
@@ -108,7 +161,7 @@
   document.documentElement.addEventListener('pointerleave', () => cursor.classList.remove('on'));
 
   /* Agenda: foto flutuante ao passar por uma data */
-  const peek = $('.peek'), peekImg = $('img', peek), corpo = $('.tabela tbody');
+  const peek = $('.peek'), peekImg = $('img', peek);
   corpo.addEventListener('pointermove', e => {
     const tr = e.target.closest('tr[data-img]');
     peek.classList.toggle('on', !!tr);
