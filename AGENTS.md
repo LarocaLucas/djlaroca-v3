@@ -13,6 +13,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (ajuste)
+- **Feito:** logo do hero reduzida a pedido do dono (desktop: até 760px / 56vw; celular: 74% da largura).
+- **Arquivos:** `css/style.css`.
+- **Testes:** conferido na prévia online em 1440x900 e 390x844. Resultado: ok.
+- **Próximo passo:** seguir ouvindo a avaliação do dono.
 ### 08/10/2026 — Claude Code
 - **Feito:** primeira versão completa: hero com tinta WebGL trocando as duas logos, sobre, estilos + player do SoundCloud, agenda (exemplo), histórico, galeria com visor, contato. Repositório criado e Pages ativado.
 - **Arquivos:** `index.html`, `css/style.css`, `js/ink.js`, `js/main.js`, `assets/`.
