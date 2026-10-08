@@ -173,6 +173,8 @@ void main(){
     hero.classList.add('ink-on');
     new ResizeObserver(() => { mede(); acorda(); }).observe(hero);
     hero.addEventListener('pointermove', e => { const H = hero.getBoundingClientRect(); varre = 0; pinta(e.clientX - H.left, e.clientY - H.top); });
+    // voltou ao hero rolando (ou a página abriu já rolada): redesenha, senão a logo fica em branco
+    addEventListener('scroll', () => { if (!rodando && visivel()) acorda(); }, { passive: true });
     hero.addEventListener('pointerleave', () => { pos = null; });
     hero.addEventListener('pointerdown', () => { pos = null; });
     setTimeout(varredura, 700);
