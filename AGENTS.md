@@ -7,7 +7,7 @@
 - Posicionamento (dono, 08/10): artista **nacional**, não regional; mais de 50 shows nacionais; o set é uma mescla de funk, rave funk, ritmada, bruxaria e nostalgia. Castro/Paraná só aparece no histórico. Player: playlist do Spotify (o SoundCloud está pouco populado).
 - Logos: `assets/images/logo-glitch.webp` (visível) e `logo-gotica.webp` (revelada pela tinta), ambas num quadro 2048x1152 com o corpo das letras centralizado. Os PNG originais ficam na raiz, fora do git.
 - Commits em Conventional Commits (pt-BR). Repositório público `LarocaLucas/djlaroca-v3`.
-- **Este é o site oficial.** Publicação: Cloudflare Pages, projeto `djlaroca-v3` (ligado a este repositório), automática a cada push na `main`; domínios `djlaroca.com.br` e `www`. Todo push vai ao ar: testar antes.
+- **Este é o site oficial.** Publicação: Cloudflare Pages, projeto `djlaroca-v3`, automática a cada push na `main` **por meio da action `.github/workflows/publicar.yml`** (o aviso nativo do Cloudflare não funciona neste repositório); domínios `djlaroca.com.br` e `www`. Todo push vai ao ar: testar antes.
 
 ## Estado atual
 - No ar em https://djlaroca.com.br/ desde 08/10/2026 (v0.2.0). GitHub Pages desativado.
@@ -17,6 +17,7 @@
 ## Registro
 ### 08/10/2026 — Claude Code (publicação automática)
 - **Problema:** depois de criado pela API, o projeto `djlaroca-v3` do Cloudflare Pages não publicava sozinho a cada push: só a primeira publicação (manual) tinha entrado, e os commits da v0.2.0 e do SEO ficaram fora do ar por horas.
+- **Solução:** `.github/workflows/publicar.yml` dispara a publicação a cada push na `main`, chamando um gancho do Cloudflare guardado no segredo `CF_DEPLOY_HOOK` do repositório. Testado: o push da própria action gerou publicação do tipo `deploy_hook` com sucesso. Causa provável (não confirmada): o app do Cloudflare no GitHub não tem acesso a este repositório, criado depois da instalação.
 - **Como conferir:** listar as publicações do projeto e ver se o commit mais recente aparece. Publicação manual: `POST /accounts/{id}/pages/projects/djlaroca-v3/deployments` com `branch=main`.
 ### 08/10/2026 — Claude Code (SEO local)
 - **Motivo:** o dono buscou "dj em castro pr" no Google e o DJ Reinaldo apareceu, o DJ Laroca não. A copy nacional tinha tirado Castro e Ponta Grossa do título, da descrição e do texto; voltaram, sem abandonar o posicionamento nacional ("base em Castro e Ponta Grossa, PR; shows em todo o Brasil").
