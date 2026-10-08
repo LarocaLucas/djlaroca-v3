@@ -32,7 +32,9 @@ void main(){
   vec2 w = vec2(n(p*3.2 + uT*.22), n(p*3.2 + 7.3 - uT*.18)) - .5;
   w += (vec2(n(p*9. - uT*.3), n(p*9. + 3.1 + uT*.26)) - .5) * .4;
   vec2 mv = v + w * vec2(uRes.y / uRes.x, 1.) * .034;
-  float m = texture2D(uM, mv).a;
+  // some suave perto das bordas do canvas, para a tinta não ser cortada em linha reta
+  float margem = smoothstep(0., .07, v.x) * smoothstep(0., .07, 1. - v.x) * smoothstep(0., .12, v.y) * smoothstep(0., .14, 1. - v.y);
+  float m = texture2D(uM, mv).a * margem;
   if (m < .02) {                                   // fora da tinta: só a logo glitch
     vec2 q0 = (v - uRect.xy) / uRect.zw;
     float a0 = texture2D(uA, q0).a * step(0., q0.x) * step(q0.x, 1.) * step(0., q0.y) * step(q0.y, 1.);
@@ -54,7 +56,7 @@ void main(){
   float dentro = step(0., q.x) * step(q.x, 1.) * step(0., q.y) * step(q.y, 1.);
   float a = texture2D(uA, q).a * dentro;
   float b = texture2D(uB, q).a * dentro;
-  vec4 tinta = mix(vec4(cor * .8, .8), vec4(1.), b);   // pré-multiplicado
+  vec4 tinta = mix(vec4(cor * .68, .68), vec4(1.), b);   // pré-multiplicado
   gl_FragColor = mix(vec4(a), tinta, ink);
 }`;
 
@@ -81,21 +83,26 @@ void main(){
   };
   const carrega = src => new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = erro; i.src = src; });
 
-  let raio = 20, larg = 1, recuo = 0, rodando = false, visivel = true, ultimo = 0, atividade = 0, varre = 0, pos = null;
+  let raio = 20, larg = 1, recuo = 0, ox = 0, oy = 0, rodando = false, visivel = true, ultimo = 0, atividade = 0, varre = 0, pos = null;
   const gotas = [];
 
+  // O canvas cobre só uma faixa em volta da logo (não o hero inteiro): menos pixels por quadro.
   function mede() {
-    const dpr = Math.min(devicePixelRatio || 1, 1.5);
-    const w = hero.clientWidth, hh = hero.clientHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 1.25);
+    const H = hero.getBoundingClientRect(), S = slot.getBoundingClientRect();
+    const x0 = Math.max(0, S.left - H.left - S.width * .1), x1 = Math.min(H.width, S.right - H.left + S.width * .1);
+    const y0 = Math.max(0, S.top - H.top - S.height * .45), y1 = Math.min(H.height, S.bottom - H.top + S.height * .8);
+    const w = x1 - x0, hh = y1 - y0;
+    ox = x0; oy = y0;
+    Object.assign(canvas.style, { left: x0 + 'px', top: y0 + 'px', width: w + 'px', height: hh + 'px' });
     canvas.width = w * dpr; canvas.height = hh * dpr;
     mask.width = Math.ceil(w / ESCALA); mask.height = Math.ceil(hh / ESCALA);
     gl.viewport(0, 0, canvas.width, canvas.height);
-    const H = hero.getBoundingClientRect(), S = slot.getBoundingClientRect();
     const fh = S.width * FRAME;
-    gl.uniform4f(U('uRect'), (S.left - H.left) / w, (S.top - H.top + (S.height - fh) / 2) / hh, S.width / w, fh / hh);
+    gl.uniform4f(U('uRect'), (S.left - H.left - x0) / w, (S.top - H.top - y0 + (S.height - fh) / 2) / hh, S.width / w, fh / hh);
     gl.uniform2f(U('uRes'), w, hh);
     gl.uniform2f(U('uPx'), 1.5 / mask.width, 1.5 / mask.height);
-    raio = Math.max(9, S.height * .38 / ESCALA);
+    raio = Math.max(9, S.height * .34 / ESCALA);
   }
 
   function carimbo(x, y, r, forca = 1) {
@@ -106,7 +113,7 @@ void main(){
 
   // x, y em px do hero; o traço engrossa com a velocidade (devagar = fio de tinta)
   function pinta(x, y, minimo = 0) {
-    x /= ESCALA; y /= ESCALA;
+    x = (x - ox) / ESCALA; y = (y - oy) / ESCALA;
     const de = pos || { x, y }, dx = x - de.x, dy = y - de.y, d = Math.hypot(dx, dy);
     const vel = Math.max(Math.min(d / (raio * .7), 1), minimo);
     larg += (Math.random() - .5) * .25; larg = Math.min(1.25, Math.max(.7, larg));   // largura irregular
@@ -122,6 +129,7 @@ void main(){
   }
 
   function quadro(agora) {
+    if (agora - ultimo < 15) { requestAnimationFrame(quadro); return; }   // no máximo ~60 quadros/s, mesmo em tela de 240 Hz
     const dt = Math.min((agora - ultimo) / 1000, .05); ultimo = agora;
     if (varre) {                       // passada automática sobre a logo
       const t = (agora - varre) / 1300, S = slot.getBoundingClientRect(), H = hero.getBoundingClientRect();

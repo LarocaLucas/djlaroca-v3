@@ -13,6 +13,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (ajuste 4)
+- **Feito:** tinta mais leve, a pedido do dono ("ainda está pesado"; não disse se era no visual ou no desempenho, então tratei os dois). Desempenho: no máximo ~60 quadros/s (antes desenhava a 240), canvas só na faixa em volta da logo, DPR até 1,25. Visual: tinta mais translúcida (0,68) e traço um pouco mais fino. A tinta agora só aparece perto da logo, sumindo suave nas bordas da faixa.
+- **Arquivos:** `js/ink.js`, `css/style.css`, `index.html` (versão dos arquivos).
+- **Testes:** Chrome 1440x900, movimento contínuo simulado, console sem erros. Não medido: uso de GPU; celular nesta rodada.
+- **Próximo passo:** o dono dizer se o "pesado" que resta é travamento ou aparência.
 ### 08/10/2026 — Claude Code (ajuste 3)
 - **Feito:** logo centralizada na vertical do hero. Tinta refeita: rastro que engrossa com a velocidade, borda ondulada, brilho leve de líquido, translúcida, poucas gotas, sem respingos. Corrigido defeito em monitores de alta taxa (241 fps nesta máquina): o recuo por quadro ficava abaixo de 1/255 e a máscara de 8 bits nunca apagava, então a tinta acumulava; agora recua em passos de 1/30 s.
 - **Arquivos:** `js/ink.js`, `css/style.css`, `index.html` (versão dos arquivos).
