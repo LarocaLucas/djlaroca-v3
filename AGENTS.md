@@ -14,6 +14,11 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (corte abaixo da agenda)
+- **Feito:** o dono aprovou a moldura sigilo ("agora sim"). Corrigido o corte na base da agenda: a moldura e o brilho dos cartões de baixo passavam da caixa da seção (que não tinha respiro embaixo) e a seção do histórico, com fundo opaco e por cima, cortava. `.agenda` ganhou `padding-bottom: 48px` e o topo do histórico encolheu para compensar.
+- **Arquivos:** `css/style.css`, `index.html`.
+- **Testes:** Chrome 1440x700: última fileira com hover simulado, brilho inteiro, 52px de folga até o fim da seção. Não testado: celular.
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (moldura "sigilo")
 - **Feito:** o dono deixou nova referência na raiz (`stock-vector-neo-tribal-*.jpg`, banco de imagens com marca d'água; fora do git e **não pode ser usada**, só o estilo). Os cartões futuros agora usam uma moldura própria no mesmo estilo (ramos finos emaranhados com espinhos curvos, ornamento no meio de cima e de baixo), gerada por `extras/molduras/gerar_sigilo.py` (semente 7) em `assets/images/sigilo.svg` e `sigilo-brasao*.svg`. O arame farpado saiu de uso e ficou guardado em `extras/molduras/`.
 - **Arquivos:** `extras/molduras/gerar_sigilo.py` (novo), `assets/images/sigilo*.svg` (novos), `css/style.css`, `index.html`, `.gitignore`, `extras/molduras/LEIA-ME.md`.
