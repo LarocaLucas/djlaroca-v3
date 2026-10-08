@@ -1,0 +1,14 @@
+# Publica no Cloudflare Pages a cada push na main (inclusive edições do agenda.json feitas pelo site do GitHub).
+# Existe porque o projeto djlaroca-v3 do Cloudflare não recebe o aviso automático de push deste repositório.
+name: Publicar no Cloudflare Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispara a publicação
+        run: curl -fsS -X POST "$HOOK" > /dev/null
+        env:
+          HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
