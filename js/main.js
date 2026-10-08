@@ -34,21 +34,44 @@
   }, { threshold: .25 });
   $$('[data-split], .faixas li, .tabela tbody tr, .linha li').forEach(el => entra.observe(el));
 
-  /* Galeria: 8 fotos no HTML, o resto entra no botão; visor em <dialog> */
-  const fotos = $('.fotos'), mais = $('.mais'), visor = $('.visor'), visorImg = $('img', visor);
-  const total = +fotos.dataset.total, caminho = n => `assets/images/galeria/foto-${String(n).padStart(3, '0')}.jpg`;
+  /* Galeria: fotos espalhadas como sobre uma mesa. De tempos em tempos uma foto
+     nova é "jogada" por cima de uma das posições, até passar por todas. */
+  const mesa = $('.mesa'), visor = $('.visor'), visorImg = $('img', visor);
+  const total = +mesa.dataset.total, caminho = n => `assets/images/galeria/foto-${String(n).padStart(3, '0')}.jpg`;
+  const slots = $$('.slot', mesa), naMesa = () => $$('.foto:not(.sai)', mesa).map(f => +f.dataset.n);
+  let fila = [], ultimoSlot = -1, topo = 10, mesaVisivel = false;
+  const proxima = () => {
+    if (!fila.length) fila = Array.from({ length: total }, (_, i) => i + 1).sort(() => Math.random() - .5);
+    const n = fila.pop();
+    return naMesa().includes(n) ? proxima() : n;
+  };
+  const joga = () => {
+    if (!mesaVisivel || document.hidden || visor.open) return;
+    const livres = slots.filter((sl, i) => i !== ultimoSlot && sl.offsetParent && !sl.matches(':hover, :focus-within'));
+    const slot = livres[Math.random() * livres.length | 0]; if (!slot) return;
+    const n = proxima(), img = new Image();
+    img.alt = 'Foto de evento do DJ Laroca';
+    img.onload = () => {
+      const velha = $('.foto:not(.sai)', slot), nova = document.createElement('button');
+      nova.className = 'foto entra'; nova.type = 'button'; nova.dataset.n = n;
+      nova.setAttribute('aria-label', 'Ampliar foto');
+      nova.style.rotate = `${(Math.random() * 6 - 3).toFixed(1)}deg`;
+      nova.append(img);
+      slot.style.zIndex = ++topo;
+      slot.append(nova);
+      if (velha) { velha.classList.add('sai'); setTimeout(() => velha.remove(), 900); }
+      ultimoSlot = slots.indexOf(slot);
+    };
+    img.src = caminho(n);
+  };
+  new IntersectionObserver(([e]) => { mesaVisivel = e.isIntersecting; }, { threshold: .15 }).observe(mesa);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(joga, 2400);
+
   let atual = 1;
   const mostra = n => { atual = (n - 1 + total) % total + 1; visorImg.src = caminho(atual); visorImg.alt = `Foto ${atual} de ${total}`; };
-  mais.hidden = false;
-  mais.addEventListener('click', () => {
-    let html = '';
-    for (let n = fotos.children.length + 1; n <= total; n++) html += `<a href="${caminho(n)}"><img src="${caminho(n)}" alt="Foto ${n} da galeria" loading="lazy"></a>`;
-    fotos.insertAdjacentHTML('beforeend', html);
-    mais.hidden = true;
-  });
-  fotos.addEventListener('click', e => {
-    const a = e.target.closest('a'); if (!a) return;
-    e.preventDefault(); mostra([...fotos.children].indexOf(a) + 1); visor.showModal();
+  mesa.addEventListener('click', e => {
+    const f = e.target.closest('.foto'); if (!f) return;
+    mostra(+f.dataset.n); visor.showModal();
   });
   $('.visor-x').addEventListener('click', () => visor.close());
   $('.visor-ant').addEventListener('click', () => mostra(atual - 1));

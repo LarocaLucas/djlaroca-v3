@@ -4,6 +4,7 @@
 - Site estático sem build: HTML, CSS e JS puros. Sem dependências.
 - Referências: layout "DJ ZakDerdan" e efeito "Hover Ink" (motionsites.ai). Paleta roxa da v2 (`#9b30ff`, `#d966ff` sobre `#060408`), fonte Inter Tight.
 - Conteúdo vem da v2 (`E:\Arquivos\Projetos\DJ Laroca v2.0`). WhatsApp (42) 99988-4992.
+- Posicionamento (dono, 08/10): artista **nacional**, não regional; mais de 50 shows nacionais; o set é uma mescla de funk, rave funk, ritmada, bruxaria e nostalgia. Castro/Paraná só aparece no histórico. Player: playlist do Spotify (o SoundCloud está pouco populado).
 - Logos: `assets/images/logo-glitch.webp` (visível) e `logo-gotica.webp` (revelada pela tinta), ambas num quadro 2048x1152 com o corpo das letras centralizado. Os PNG originais ficam na raiz, fora do git.
 - Commits em Conventional Commits (pt-BR). Repositório público `LarocaLucas/djlaroca-v3`, GitHub Pages na branch `main`.
 - O site oficial (repo `LarocaLucas/djlaroca`, domínio djlaroca.com.br) só é substituído quando o dono pedir.
@@ -13,6 +14,11 @@
 - Agenda com datas de exemplo (aguardando as reais).
 
 ## Registro
+### 08/10/2026 — Claude Code (conteúdo e galeria)
+- **Feito:** copy reescrita com posicionamento nacional (hero, sobre, estilos, histórico, contato, metadados); números atualizados (50+ shows nacionais); estilos viraram funk, rave funk, ritmada, bruxaria e nostalgia; player trocado do SoundCloud para a playlist do Spotify; galeria refeita como fotos espalhadas (9 posições no desktop, 6 no celular) que trocam sozinhas a cada 2,4 s, sem botão "ver todas" (clicar ainda amplia).
+- **Arquivos:** `index.html`, `css/style.css`, `js/main.js`.
+- **Testes:** Chrome a 929 px de largura: fotos trocando, sem rolagem horizontal. Não testado: celular, clique para ampliar, player do Spotify carregando.
+- **Próximo passo:** avaliação do dono; as descrições de ritmada e bruxaria foram escritas por mim e precisam da conferência dele.
 ### 08/10/2026 — Claude Code (ajuste 4)
 - **Feito:** tinta mais leve, a pedido do dono ("ainda está pesado"; não disse se era no visual ou no desempenho, então tratei os dois). Desempenho: no máximo ~60 quadros/s (antes desenhava a 240), canvas só na faixa em volta da logo, DPR até 1,25. Visual: tinta mais translúcida (0,68) e traço um pouco mais fino. A tinta agora só aparece perto da logo, sumindo suave nas bordas da faixa.
 - **Arquivos:** `js/ink.js`, `css/style.css`, `index.html` (versão dos arquivos).

@@ -151,12 +151,24 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .linha p { font-size: .9rem; color: var(--dim); line-height: 1.45; max-width: 48em; }
 
 /* ---------- Galeria e visor ---------- */
-.fotos { margin-top: clamp(32px, 7vh, 80px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.fotos a { overflow: hidden; aspect-ratio: 4 / 5; background: var(--deep); }
-.fotos img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85); transition: transform .7s var(--ease), filter .4s; }
-.fotos a:hover img { transform: scale(1.05); filter: none; }
-.mais { margin: 28px auto 0; display: flex; }
-.mais[hidden] { display: none; }
+/* fotos espalhadas: cada .slot tem posição e inclinação fixas; as .foto trocam dentro dele */
+.mesa { position: relative; margin-top: clamp(32px, 6vh, 64px); height: clamp(520px, 64vw, 940px); }
+.slot { position: absolute; width: 19%; rotate: var(--r); transition: rotate .5s var(--ease), translate .5s var(--ease); }
+.slot:nth-child(1) { left: 1%;  top: 5%;  --r: -7deg; }
+.slot:nth-child(2) { left: 19%; top: 30%; --r: 4deg; }
+.slot:nth-child(3) { left: 35%; top: 1%;  --r: -3deg; }
+.slot:nth-child(4) { left: 53%; top: 24%; --r: 6deg; }
+.slot:nth-child(5) { left: 70%; top: 3%;  --r: -5deg; }
+.slot:nth-child(6) { left: 80%; top: 36%; --r: 3deg; }
+.slot:nth-child(7) { left: 5%;  top: 50%; --r: 5deg; }
+.slot:nth-child(8) { left: 37%; top: 47%; --r: -6deg; }
+.slot:nth-child(9) { left: 61%; top: 52%; --r: 2deg; }
+.slot:hover, .slot:focus-within { rotate: 0deg; translate: 0 -10px; z-index: 999 !important; }
+.foto { position: absolute; left: 0; top: 0; width: 100%; padding: 6px 6px 22px; background: #f3eefa; box-shadow: 0 2px 3px rgba(0, 0, 0, .5), 0 18px 36px rgba(0, 0, 0, .55); transition: opacity .8s; }
+.foto img { width: 100%; height: auto; }
+.foto.entra { animation: joga .75s var(--ease) both; }
+.foto.sai { opacity: 0; pointer-events: none; }
+@keyframes joga { from { opacity: 0; transform: translate(6%, -22%) scale(1.22) rotate(9deg); } 60% { opacity: 1; } }
 .visor { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; border: 0; background: rgba(6, 4, 8, .94); color: #fff; }
 .visor[open] { display: grid; place-items: center; }
 .visor::backdrop { background: var(--ink); }
@@ -204,7 +216,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .faixas li, .linha li { grid-template-columns: 2.6em 1fr; }
   .faixas p, .linha p { grid-column: 2; }
   .linha li { grid-template-columns: 1fr; } .linha p { grid-column: 1; }
-  .fotos { grid-template-columns: repeat(2, 1fr); }
+  .mesa { height: 222vw; }
+  .slot { width: 46%; }
+  .slot:nth-child(1) { left: 1%;  top: 0; }
+  .slot:nth-child(2) { left: 52%; top: 5%; }
+  .slot:nth-child(3) { left: 7%;  top: 33%; }
+  .slot:nth-child(4) { left: 50%; top: 38%; }
+  .slot:nth-child(5) { left: 2%;  top: 66%; }
+  .slot:nth-child(6) { left: 49%; top: 69%; }
+  .slot:nth-child(n+7) { display: none; }
   /* agenda vira cartões */
   .tabela thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .tabela tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 14px 0; border-top: 1px solid var(--line); }
