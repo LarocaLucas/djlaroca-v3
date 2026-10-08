@@ -14,6 +14,12 @@
 - Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
 
 ## Registro
+### 08/10/2026 — Claude Code (moldura de espinhos, glitch suavizado, faixa contínua)
+- **Feito:** as garras de canto deram lugar a uma moldura gótica de espinhos em volta do cartão inteiro (`border-image` com SVG embutido no CSS, em `.dia.futuro::before`), que cresce a partir dos quatro cantos (`@property --cresce` + máscara radial), pulsa e aperta no hover. Glitch dos cartões passados suavizado (deslocamentos em ~2/3, ciclo 2,6 s, sem inversão de cor). Faixa de estilos: 4 cópias idênticas e animação de exatamente 1/4 da largura, sem emenda.
+- **Atenção:** o SVG do `border-image` precisa de `width`/`height`; sem isso o recorte (`40`) sai errado e a borda vira uma faixa chapada.
+- **Arquivos:** `index.html`, `css/style.css`, `js/main.js`.
+- **Testes:** Chrome: moldura nos 7 cartões futuros, 4 cópias da faixa com a mesma largura (3243,8px = 1/4 do total). Não testado: celular; Firefox/Safari (crescimento da moldura depende de `@property`; sem suporte ela aparece direto).
+- **Próximo passo:** avaliação do dono.
 ### 08/10/2026 — Claude Code (garras góticas, glitch no cartão inteiro)
 - **Feito:** cartões de datas futuras ganham garras góticas (SVG `#garra` no `index.html`, 4 por cartão) que crescem dos cantos ao aparecer, "respiram" e apertam no hover; cartões de datas passadas falham inteiros (tremor, quadros fantasmas e todos os textos com glitch); conteúdo padronizado (local em cima, cidade embaixo); vídeo do hero no celular mais escuro (brilho .36).
 - **Arquivos:** `index.html`, `css/style.css`, `js/main.js`.

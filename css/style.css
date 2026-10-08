@@ -163,34 +163,39 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .dia.livre { border-style: dashed; border-color: var(--violet); }
 .dia.livre p { font-size: .86rem; color: var(--dim); line-height: 1.4; }
 .dia.livre .pill { justify-self: start; }
-/* dia que ainda vai acontecer: garras góticas saem dos cantos e agarram o cartão */
-.garra { position: absolute; z-index: -1; width: clamp(30px, 22%, 58px); aspect-ratio: 1; overflow: visible; fill: #6a1fc4; pointer-events: none; filter: drop-shadow(0 0 6px rgba(155, 48, 255, .55)); scale: 0; opacity: .9;
-  transition: scale 1s var(--ease) calc(.45s + var(--k, 0) * 80ms + var(--g) * 110ms), fill .4s; animation: respira 3.2s ease-in-out infinite alternate; animation-delay: calc(var(--g) * -.8s); }
-.g1 { left: -1px; top: -1px; transform-origin: 0 0; }
-.g2 { right: -1px; top: -1px; transform-origin: 100% 0; }
-.g3 { left: -1px; bottom: -1px; transform-origin: 0 100%; }
-.g4 { right: -1px; bottom: -1px; transform-origin: 100% 100%; }
-.dia.in .garra { scale: 1; }
-.dia.in:hover .garra { scale: 1.7; fill: var(--neon); transition: scale .5s var(--ease), fill .3s; }
-@keyframes respira { from { rotate: -3deg; } to { rotate: 4deg; } }
+/* dia que ainda vai acontecer: moldura gótica de espinhos toma o cartão inteiro, crescendo a partir dos cantos */
+@property --cresce { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+.dia.futuro::before {
+  content: ''; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; pointer-events: none;
+  border: 26px solid transparent; border-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22 fill=%22%237c2be6%22%3E%3Cdefs%3E%3Cg id=%22c%22%3E%3Cpath d=%22M2 2C16 0 30 3 40 8 29 8 18 9 8 13Z%22/%3E%3Cpath d=%22M2 2C0 16 3 30 8 40 8 29 9 18 13 8Z%22/%3E%3Cpath d=%22M4 4C13 8 23 17 27 34 19 23 11 16 4 13Z%22/%3E%3Cpath d=%22M15 13C25 11 35 17 36 28 31 22 25 19 17 20Z%22/%3E%3Cpath d=%22M13 15C11 25 17 35 28 36 22 31 19 25 20 17Z%22/%3E%3Cpath d=%22M22 3 25-3 28 4Z%22/%3E%3Cpath d=%22M3 22-3 25 4 28Z%22/%3E%3C/g%3E%3Cg id=%22e%22%3E%3Cpath d=%22M40 8Q50 3 60 8T80 8%22 fill=%22none%22 stroke=%22%237c2be6%22 stroke-width=%222.6%22/%3E%3Cpath d=%22M45 6C48 14 51 21 49 31 56 23 57 13 55 6Z%22/%3E%3Cpath d=%22M65 8 69 19 73 8Z%22/%3E%3Cpath d=%22M58 7 61 0 64 7Z%22/%3E%3Cpath d=%22M74 9C78 13 79 18 76 23 76 18 74 14 71 11Z%22/%3E%3C/g%3E%3C/defs%3E%3Cuse href=%22%23c%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(120 0) scale(-1 1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(0 120) scale(1 -1)%22/%3E%3Cuse href=%22%23c%22 transform=%22translate(120 120) scale(-1 -1)%22/%3E%3Cuse href=%22%23e%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(0 120) scale(1 -1)%22/%3E%3Cuse href=%22%23e%22 transform=%22matrix(0 1 1 0 0 0)%22/%3E%3Cuse href=%22%23e%22 transform=%22translate(120 0) scale(-1 1) matrix(0 1 1 0 0 0)%22/%3E%3C/svg%3E") 40 / 26px round;
+  --m: #000 var(--cresce), transparent calc(var(--cresce) + 10%);
+  -webkit-mask: radial-gradient(circle at 0 0, var(--m)), radial-gradient(circle at 100% 0, var(--m)), radial-gradient(circle at 0 100%, var(--m)), radial-gradient(circle at 100% 100%, var(--m));
+          mask: radial-gradient(circle at 0 0, var(--m)), radial-gradient(circle at 100% 0, var(--m)), radial-gradient(circle at 0 100%, var(--m)), radial-gradient(circle at 100% 100%, var(--m));
+  filter: drop-shadow(0 0 5px rgba(155, 48, 255, .5));
+  transition: --cresce 2.2s var(--ease) calc(.5s + var(--k, 0) * 110ms), border-image-width .6s var(--ease), filter .4s;
+  animation: pulsa 3.4s ease-in-out infinite alternate; animation-delay: calc(var(--k, 0) * -.6s);
+}
+.dia.futuro.in::before { --cresce: 62%; }
+.dia.futuro:hover::before { border-image-width: 36px; filter: drop-shadow(0 0 10px var(--neon)) brightness(1.6) saturate(1.2); }
+@keyframes pulsa { from { opacity: .7; } to { opacity: 1; } }
 
 /* dia que já passou: o cartão inteiro falha (glitch), não só os textos */
 .dia.passou { border-color: rgba(240, 232, 255, .1); }
-.js .dia.passou.in { animation: linha-in .9s var(--ease) both, bloco-glitch 2.1s steps(1) infinite; animation-delay: calc(var(--k, 0) * 80ms), calc(var(--k, 0) * -.37s); }
-.dia.passou::before, .dia.passou::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--neon); border-radius: inherit; background: rgba(217, 102, 255, .1); pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 2.1s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.37s); }
+.js .dia.passou.in { animation: linha-in .9s var(--ease) both, bloco-glitch 2.6s steps(1) infinite; animation-delay: calc(var(--k, 0) * 80ms), calc(var(--k, 0) * -.37s); }
+.dia.passou::before, .dia.passou::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--neon); border-radius: inherit; background: rgba(217, 102, 255, .1); pointer-events: none; clip-path: inset(0 0 100% 0); opacity: .7; animation: glitch-a 2.6s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.37s); }
 .dia.passou::after { border-color: #fff; background: rgba(255, 255, 255, .07); animation-name: glitch-b; }
-@keyframes bloco-glitch { 0%, 58%, 100% { transform: none; filter: none; } 60% { transform: translateX(-7px) skewX(-5deg); filter: hue-rotate(50deg) contrast(1.4); } 64% { transform: translateX(6px); filter: none; } 68% { transform: translate(-4px, 2px) skewX(7deg); filter: brightness(1.7); } 72% { transform: translateX(8px) skewX(-3deg); filter: none; } 76% { transform: none; filter: invert(.15) saturate(2); } 82% { transform: translateX(-5px) scaleY(1.03); filter: none; } 88% { transform: translateX(4px); filter: hue-rotate(-40deg); } 92% { transform: none; filter: none; } }
+@keyframes bloco-glitch { 0%, 66%, 100% { transform: none; filter: none; } 68% { transform: translateX(-4px) skewX(-3deg); filter: hue-rotate(30deg) contrast(1.2); } 72% { transform: translateX(4px); filter: none; } 76% { transform: translate(-3px, 1px) skewX(4deg); filter: brightness(1.35); } 80% { transform: translateX(5px) skewX(-2deg); filter: none; } 85% { transform: translateX(-3px); filter: saturate(1.6); } 90% { transform: translateX(2px); filter: none; } 94% { transform: none; } }
 /* e os textos também */
 .dia.passou :is(.dia-n, b) { color: var(--dim); }
 .dia.passou .dia-s { color: var(--dim); }
 .glitch { position: relative; display: inline-block; }
-.passou .glitch::before, .passou .glitch::after { content: attr(data-t); position: absolute; inset: 0; pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 1.7s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
+.passou .glitch::before, .passou .glitch::after { content: attr(data-t); position: absolute; inset: 0; pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 2.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
 .passou .glitch::before { color: var(--neon); text-shadow: -2px 0 var(--violet); }
 .passou .glitch::after { color: #fff; text-shadow: 2px 0 var(--neon); animation-name: glitch-b; }
-.passou .glitch { animation: glitch-c 1.7s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
-@keyframes glitch-a { 0%, 62%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 64% { clip-path: inset(6% 0 60% 0); transform: translateX(-10px); } 68% { clip-path: inset(64% 0 4% 0); transform: translateX(9px); } 72% { clip-path: inset(30% 0 40% 0); transform: translateX(-7px) skewX(-22deg); } 76% { clip-path: inset(80% 0 0 0); transform: translateX(12px); } 80% { clip-path: inset(12% 0 70% 0); transform: translateX(-12px) skewX(16deg); } 84% { clip-path: inset(46% 0 24% 0); transform: translateX(8px); } 88% { clip-path: inset(0 0 82% 0); transform: translateX(-6px); } 92% { clip-path: inset(58% 0 18% 0); transform: translateX(10px) skewX(-10deg); } }
-@keyframes glitch-b { 0%, 63%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 66% { clip-path: inset(50% 0 26% 0); transform: translateX(10px); } 70% { clip-path: inset(2% 0 82% 0); transform: translateX(-9px); } 74% { clip-path: inset(68% 0 10% 0); transform: translateX(7px) skewX(18deg); } 78% { clip-path: inset(20% 0 62% 0); transform: translateX(-12px); } 82% { clip-path: inset(74% 0 4% 0); transform: translateX(11px); } 86% { clip-path: inset(36% 0 44% 0); transform: translateX(-8px) skewX(-14deg); } 90% { clip-path: inset(88% 0 0 0); transform: translateX(6px); } }
-@keyframes glitch-c { 0%, 62%, 100% { opacity: 1; transform: none; } 66% { opacity: .35; transform: translateX(4px) skewX(-8deg); } 72% { opacity: .9; transform: translateX(-4px); } 78% { opacity: .2; transform: translateX(3px) skewX(10deg); } 84% { opacity: .75; transform: translateX(-3px); } 90% { opacity: .4; transform: none; } }
+.passou .glitch { animation: glitch-c 2.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
+@keyframes glitch-a { 0%, 62%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 64% { clip-path: inset(6% 0 60% 0); transform: translateX(-6px); } 68% { clip-path: inset(64% 0 4% 0); transform: translateX(6px); } 72% { clip-path: inset(30% 0 40% 0); transform: translateX(-5px) skewX(-22deg); } 76% { clip-path: inset(80% 0 0 0); transform: translateX(8px); } 80% { clip-path: inset(12% 0 70% 0); transform: translateX(-8px) skewX(16deg); } 84% { clip-path: inset(46% 0 24% 0); transform: translateX(5px); } 88% { clip-path: inset(0 0 82% 0); transform: translateX(-4px); } 92% { clip-path: inset(58% 0 18% 0); transform: translateX(6px) skewX(-10deg); } }
+@keyframes glitch-b { 0%, 63%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 66% { clip-path: inset(50% 0 26% 0); transform: translateX(6px); } 70% { clip-path: inset(2% 0 82% 0); transform: translateX(-6px); } 74% { clip-path: inset(68% 0 10% 0); transform: translateX(5px) skewX(18deg); } 78% { clip-path: inset(20% 0 62% 0); transform: translateX(-8px); } 82% { clip-path: inset(74% 0 4% 0); transform: translateX(7px); } 86% { clip-path: inset(36% 0 44% 0); transform: translateX(-5px) skewX(-14deg); } 90% { clip-path: inset(88% 0 0 0); transform: translateX(4px); } }
+@keyframes glitch-c { 0%, 62%, 100% { opacity: 1; transform: none; } 66% { opacity: .5; transform: translateX(2px) skewX(-5deg); } 72% { opacity: .95; transform: translateX(-2px); } 78% { opacity: .4; transform: translateX(2px) skewX(6deg); } 84% { opacity: .85; transform: none; } 90% { opacity: .6; } }
 .aviso { display: inline-flex; align-items: center; gap: 12px; margin-top: clamp(24px, 4vh, 40px); padding: 10px 18px; border: 1px solid var(--violet); border-radius: 99px; font-size: .9rem; }
 .aviso[hidden] { display: none; }
 .aviso::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); animation: pisca 1.4s ease-in-out infinite alternate; }
@@ -198,9 +203,9 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 
 /* faixa de texto correndo */
 .rolante { overflow: hidden; margin: clamp(56px, 10vh, 110px) calc(var(--gutter) * -1) 0; padding-block: 12px; border-block: 1px solid var(--line); }
-.rolante div { display: flex; width: max-content; animation: rola 9s linear infinite; }
-.rolante span { padding-right: .35em; font-size: clamp(2.2rem, 6.5vw, 6rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.1; text-transform: uppercase; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(240, 232, 255, .6); }
-@keyframes rola { to { transform: translateX(-50%); } }
+.rolante div { display: flex; width: max-content; animation: rola 9s linear infinite; will-change: transform; }
+.rolante span { flex: none; white-space: pre; font-size: clamp(2.2rem, 6.5vw, 6rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.1; text-transform: uppercase; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(240, 232, 255, .6); }
+@keyframes rola { to { transform: translateX(-25%); } }
 
 .linha { margin-top: clamp(32px, 7vh, 80px); }
 .linha li { display: grid; grid-template-columns: minmax(8em, 1fr) minmax(10em, 1.4fr) minmax(0, 2.6fr); gap: 4px 24px; align-items: baseline; padding: 20px 0; border-top: 1px solid var(--line); }
@@ -301,6 +306,8 @@ main > section.contato { background: linear-gradient(to bottom, var(--ink), #2a0
   .hero-video[src] { display: block; }
   .dias { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .dia { padding: 14px 12px; }
+  .dia.futuro::before { border-width: 18px; border-image-width: 18px; }
+  .dia.futuro:hover::before { border-image-width: 24px; }
   .dia header { flex-wrap: wrap; }
   .dia-s { margin-left: 0; }
   .sobre-foot { grid-template-columns: 1fr; }
