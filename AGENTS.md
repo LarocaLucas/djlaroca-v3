@@ -6,14 +6,20 @@
 - Conteúdo vem da v2 (`E:\Arquivos\Projetos\DJ Laroca v2.0`). WhatsApp (42) 99988-4992.
 - Posicionamento (dono, 08/10): artista **nacional**, não regional; mais de 50 shows nacionais; o set é uma mescla de funk, rave funk, ritmada, bruxaria e nostalgia. Castro/Paraná só aparece no histórico. Player: playlist do Spotify (o SoundCloud está pouco populado).
 - Logos: `assets/images/logo-glitch.webp` (visível) e `logo-gotica.webp` (revelada pela tinta), ambas num quadro 2048x1152 com o corpo das letras centralizado. Os PNG originais ficam na raiz, fora do git.
-- Commits em Conventional Commits (pt-BR). Repositório público `LarocaLucas/djlaroca-v3`, GitHub Pages na branch `main`.
-- O site oficial (repo `LarocaLucas/djlaroca`, domínio djlaroca.com.br) só é substituído quando o dono pedir.
+- Commits em Conventional Commits (pt-BR). Repositório público `LarocaLucas/djlaroca-v3`.
+- **Este é o site oficial.** Publicação: Cloudflare Pages, projeto `djlaroca-v3` (ligado a este repositório), automática a cada push na `main`; domínios `djlaroca.com.br` e `www`. Todo push vai ao ar: testar antes.
 
 ## Estado atual
-- v0.1.0 no ar como prévia em https://larocalucas.github.io/djlaroca-v3/
-- Agenda real de outubro/2026 em `agenda.json` (o dono edita pelo GitHub; ver README).
+- No ar em https://djlaroca.com.br/ desde 08/10/2026 (v0.2.0). GitHub Pages desativado.
+- Agenda real em `agenda.json` (o dono edita pelo GitHub; ver README).
+- Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 08/10/2026 — Claude Code (site no ar)
+- **Feito:** a pedido do dono, a v3 foi ao ar em djlaroca.com.br. O projeto antigo do Cloudflare Pages não aceita trocar de repositório (o PATCH é ignorado), então foi criado o projeto `djlaroca-v3` ligado a este repositório; os domínios `djlaroca.com.br` e `www` saíram do projeto antigo e entraram no novo, e os dois CNAME passaram a apontar para `djlaroca-v3.pages.dev`. Adicionados `_headers` (cache e segurança; `agenda.json` sem cache) e `_redirects`. GitHub Pages deste repositório desativado. Repositório antigo `LarocaLucas/djlaroca` tornado privado e arquivado.
+- **Arquivos:** `_headers`, `_redirects`, `README.md`, `CHANGELOG.md`.
+- **Testes:** `djlaroca.com.br` e `www` servem a v3 (main.js v3.1.7), `agenda.json`, vídeo e moldura respondem 200. O domínio levou cerca de 3,5 min para trocar. Observação: `www` responde direto, sem redirecionar para a raiz (o `_redirects` do Pages não faz redirecionamento por domínio).
+- **Próximo passo:** testar em celular real; decidir se apaga o projeto antigo `djlaroca` do Cloudflare.
 ### 08/10/2026 — Claude Code (corte abaixo da agenda)
 - **Feito:** o dono aprovou a moldura sigilo ("agora sim"). Corrigido o corte na base da agenda: a moldura e o brilho dos cartões de baixo passavam da caixa da seção (que não tinha respiro embaixo) e a seção do histórico, com fundo opaco e por cima, cortava. `.agenda` ganhou `padding-bottom: 48px` e o topo do histórico encolheu para compensar.
 - **Arquivos:** `css/style.css`, `index.html`.
