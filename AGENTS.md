@@ -15,6 +15,14 @@
 - Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 09/10/2026 — Claude Code (moldura da agenda e galeria)
+- **Problema (dono):** na agenda, a moldura dos cartões ficava só nos cantos por uns 3 s e depois aparecia inteira de uma vez, no computador e no celular.
+- **Causa (confirmada no navegador):** a máscara estava dentro dos `@keyframes` como `var(--mask)`; ali o `var()` é resolvido com o `--cresce` parado em 0%, então o desenho não acompanhava a animação e só era liberado no `mask: none` do fim.
+- **Solução:** a máscara foi para a regra `.dia.futuro.in::before/::after`, os keyframes `cresce` animam só `--cresce` e uma segunda animação (`solta`) tira a máscara no fim. Crescimento em 1,1 s, com espera de 0,1 s + 60 ms por cartão (antes 2,6 s e 0,5 s + 110 ms). Com movimento reduzido a moldura aparece inteira, sem máscara.
+- **Galeria (pedido do dono):** a cada rodada de 1,8 s trocam 2 ou 3 fotos, cada uma num momento sorteado dentro de 1,5 s, em posições diferentes (uma posição que trocou descansa 4 s). Antes trocava uma por rodada.
+- **Arquivos:** `css/style.css`, `js/main.js`, `index.html` (versão dos arquivos 3.1.9).
+- **Testes:** local no Chrome: a máscara acompanha `--cresce` (50% → 62%) e some em ~0,8 s; em 9 s de galeria houve 10 trocas em posições variadas, sempre com uma foto por posição. Não testado: celular real e Safari.
+- **Próximo passo:** push na `main` para publicar (depende do ok do dono).
 ### 08/10/2026 — Claude Code (publicação automática)
 - **Problema:** depois de criado pela API, o projeto `djlaroca-v3` do Cloudflare Pages não publicava sozinho a cada push: só a primeira publicação (manual) tinha entrado, e os commits da v0.2.0 e do SEO ficaram fora do ar por horas.
 - **Solução:** `.github/workflows/publicar.yml` dispara a publicação a cada push na `main`, chamando um gancho do Cloudflare guardado no segredo `CF_DEPLOY_HOOK` do repositório. Testado: o push da própria action gerou publicação do tipo `deploy_hook` com sucesso. Causa provável (não confirmada): o app do Cloudflare no GitHub não tem acesso a este repositório, criado depois da instalação.
