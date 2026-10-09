@@ -113,12 +113,13 @@
   $$('.row-tags, .sobre > .tag, .sobre-foot > *, .rolante, .capa, .player-titulo, .player, .aviso, .contato .tag, .contato-txt, .contato-acoes')
     .forEach(el => { el.dataset.rev = ''; sobe.observe(el); });
 
-  /* Galeria: fotos espalhadas como sobre uma mesa. De tempos em tempos uma foto
-     nova é "jogada" por cima de uma das posições, até passar por todas. */
+  /* Galeria: fotos espalhadas como sobre uma mesa. A cada rodada, duas ou três fotos
+     novas são "jogadas" por cima de posições diferentes, cada uma num momento sorteado. */
   const mesa = $('.mesa'), visor = $('.visor'), visorImg = $('img', visor);
   const total = +mesa.dataset.total, caminho = n => `assets/images/galeria/foto-${String(n).padStart(3, '0')}.jpg`;
   const slots = $$('.slot', mesa), naMesa = () => $$('.foto:not(.sai)', mesa).map(f => +f.dataset.n);
-  let fila = [], ultimoSlot = -1, topo = 10, mesaVisivel = false;
+  let fila = [], topo = 10, mesaVisivel = false;
+  const ocupados = new Set();   // posições que acabaram de trocar: descansam um pouco antes de trocar de novo
   const proxima = () => {
     if (!fila.length) fila = Array.from({ length: total }, (_, i) => i + 1).sort(() => Math.random() - .5);
     const n = fila.pop();
@@ -126,9 +127,10 @@
   };
   const joga = () => {
     if (!mesaVisivel || document.hidden || visor.open) return;
-    const livres = slots.filter((sl, i) => i !== ultimoSlot && sl.offsetParent && !sl.matches(':hover, :focus-within'));
+    const livres = slots.filter(sl => !ocupados.has(sl) && sl.offsetParent && !sl.matches(':hover, :focus-within'));
     const slot = livres[Math.random() * livres.length | 0]; if (!slot) return;
     const n = proxima(), img = new Image();
+    ocupados.add(slot); setTimeout(() => ocupados.delete(slot), 4000);
     img.alt = 'Foto de evento do DJ Laroca';
     img.onload = () => {
       const velha = $('.foto:not(.sai)', slot), nova = document.createElement('button');
@@ -139,12 +141,11 @@
       slot.style.zIndex = ++topo;
       slot.append(nova);
       if (velha) { velha.classList.add('sai'); setTimeout(() => velha.remove(), 900); }
-      ultimoSlot = slots.indexOf(slot);
     };
     img.src = caminho(n);
   };
   new IntersectionObserver(([e]) => { mesaVisivel = e.isIntersecting; }, { threshold: .15 }).observe(mesa);
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(joga, 1800);
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { for (let i = 2 + (Math.random() * 2 | 0); i--;) setTimeout(joga, Math.random() * 1500); }, 1800);
 
   let atual = 1;
   const mostra = n => { atual = (n - 1 + total) % total + 1; visorImg.src = caminho(atual); visorImg.alt = `Foto ${atual} de ${total}`; };
