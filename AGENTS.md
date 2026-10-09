@@ -22,7 +22,7 @@
 - **Galeria (pedido do dono):** a cada rodada de 1,8 s trocam 2 ou 3 fotos, cada uma num momento sorteado dentro de 1,5 s, em posições diferentes (uma posição que trocou descansa 4 s). Antes trocava uma por rodada.
 - **Arquivos:** `css/style.css`, `js/main.js`, `index.html` (versão dos arquivos 3.1.9).
 - **Testes:** local no Chrome: a máscara acompanha `--cresce` (50% → 62%) e some em ~0,8 s; em 9 s de galeria houve 10 trocas em posições variadas, sempre com uma foto por posição. Não testado: celular real e Safari.
-- **Próximo passo:** push na `main` para publicar (depende do ok do dono).
+- **Publicado** em 09/10 com o ok do dono; conferido no ar (arquivos 3.1.9, CSS e JS novos).
 ### 08/10/2026 — Claude Code (publicação automática)
 - **Problema:** depois de criado pela API, o projeto `djlaroca-v3` do Cloudflare Pages não publicava sozinho a cada push: só a primeira publicação (manual) tinha entrado, e os commits da v0.2.0 e do SEO ficaram fora do ar por horas.
 - **Solução:** `.github/workflows/publicar.yml` dispara a publicação a cada push na `main`, chamando um gancho do Cloudflare guardado no segredo `CF_DEPLOY_HOOK` do repositório. Testado: o push da própria action gerou publicação do tipo `deploy_hook` com sucesso. Causa provável (não confirmada): o app do Cloudflare no GitHub não tem acesso a este repositório, criado depois da instalação.
