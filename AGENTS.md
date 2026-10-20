@@ -20,6 +20,7 @@
 - **Glitch:** ciclo de 2,6 s/2,2 s para 5,2 s/4,8 s, rajada mais curta (~0,6 s) e com cerca de metade do deslocamento, da inclinação e do filtro.
 - **Fotos (causa confirmada no Chrome):** no hover a foto levanta 10 px e endireita; na borda ela saía de baixo do cursor, perdia o hover, voltava e ganhava de novo (z-index 999 ligando e desligando). Agora a foto levantada ganha uma área de hover 24 px maior (`::after`). A foto que sai também perde a classe `entra`, para só esmaecer (0,4 s) em vez de sumir de vez em alguns navegadores.
 - **Arquivos:** `css/style.css`, `js/main.js`, `index.html` (versão dos arquivos 3.2.0).
+- **Publicado** em 19/10 com o ok do dono; conferido no ar (arquivos 3.2.0).
 - **Testes:** local no Chrome (Playwright), cursor na borda inferior de cada foto por 1 s: antes o hover alternava (ex.: `100011000011`), agora fica estável em 12 de 12 posições; glitch com 5,2 s/4,8 s aplicado. Não testado: Safari, Firefox e celular real.
 ### 09/10/2026 — Claude Code (moldura da agenda e galeria)
 - **Problema (dono):** na agenda, a moldura dos cartões ficava só nos cantos por uns 3 s e depois aparecia inteira de uma vez, no computador e no celular.
