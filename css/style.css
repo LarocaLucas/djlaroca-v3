@@ -195,21 +195,21 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 
 /* dia que já passou: o cartão inteiro falha (glitch), não só os textos */
 .dia.passou { border-color: rgba(240, 232, 255, .1); }
-.js .dia.passou.in { animation: linha-in .9s var(--ease) both, bloco-glitch 2.6s steps(1) infinite; animation-delay: calc(var(--k, 0) * 80ms), calc(var(--k, 0) * -.37s); }
-.dia.passou::before, .dia.passou::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--neon); border-radius: inherit; background: rgba(217, 102, 255, .1); pointer-events: none; clip-path: inset(0 0 100% 0); opacity: .7; animation: glitch-a 2.6s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.37s); }
+.js .dia.passou.in { animation: linha-in .9s var(--ease) both, bloco-glitch 5.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * 80ms), calc(var(--k, 0) * -.37s); }
+.dia.passou::before, .dia.passou::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--neon); border-radius: inherit; background: rgba(217, 102, 255, .1); pointer-events: none; clip-path: inset(0 0 100% 0); opacity: .7; animation: glitch-a 5.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.37s); }
 .dia.passou::after { border-color: #fff; background: rgba(255, 255, 255, .07); animation-name: glitch-b; }
-@keyframes bloco-glitch { 0%, 66%, 100% { transform: none; filter: none; } 68% { transform: translateX(-4px) skewX(-3deg); filter: hue-rotate(30deg) contrast(1.2); } 72% { transform: translateX(4px); filter: none; } 76% { transform: translate(-3px, 1px) skewX(4deg); filter: brightness(1.35); } 80% { transform: translateX(5px) skewX(-2deg); filter: none; } 85% { transform: translateX(-3px); filter: saturate(1.6); } 90% { transform: translateX(2px); filter: none; } 94% { transform: none; } }
+@keyframes bloco-glitch { 0%, 84%, 100% { transform: none; filter: none; } 86% { transform: translateX(-2px) skewX(-1.5deg); filter: hue-rotate(20deg); } 89% { transform: translateX(2px); filter: none; } 92% { transform: translateX(-1px); filter: brightness(1.15); } 95% { transform: none; filter: none; } }
 /* e os textos também */
 .dia.passou :is(.dia-n, b) { color: var(--dim); }
 .dia.passou .dia-s { color: var(--dim); }
 .glitch { position: relative; display: inline-block; }
-.passou .glitch::before, .passou .glitch::after { content: attr(data-t); position: absolute; inset: 0; pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 2.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
+.passou .glitch::before, .passou .glitch::after { content: attr(data-t); position: absolute; inset: 0; pointer-events: none; clip-path: inset(0 0 100% 0); animation: glitch-a 4.8s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
 .passou .glitch::before { color: var(--neon); text-shadow: -2px 0 var(--violet); }
 .passou .glitch::after { color: #fff; text-shadow: 2px 0 var(--neon); animation-name: glitch-b; }
-.passou .glitch { animation: glitch-c 2.2s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
-@keyframes glitch-a { 0%, 62%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 64% { clip-path: inset(6% 0 60% 0); transform: translateX(-6px); } 68% { clip-path: inset(64% 0 4% 0); transform: translateX(6px); } 72% { clip-path: inset(30% 0 40% 0); transform: translateX(-5px) skewX(-22deg); } 76% { clip-path: inset(80% 0 0 0); transform: translateX(8px); } 80% { clip-path: inset(12% 0 70% 0); transform: translateX(-8px) skewX(16deg); } 84% { clip-path: inset(46% 0 24% 0); transform: translateX(5px); } 88% { clip-path: inset(0 0 82% 0); transform: translateX(-4px); } 92% { clip-path: inset(58% 0 18% 0); transform: translateX(6px) skewX(-10deg); } }
-@keyframes glitch-b { 0%, 63%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 66% { clip-path: inset(50% 0 26% 0); transform: translateX(6px); } 70% { clip-path: inset(2% 0 82% 0); transform: translateX(-6px); } 74% { clip-path: inset(68% 0 10% 0); transform: translateX(5px) skewX(18deg); } 78% { clip-path: inset(20% 0 62% 0); transform: translateX(-8px); } 82% { clip-path: inset(74% 0 4% 0); transform: translateX(7px); } 86% { clip-path: inset(36% 0 44% 0); transform: translateX(-5px) skewX(-14deg); } 90% { clip-path: inset(88% 0 0 0); transform: translateX(4px); } }
-@keyframes glitch-c { 0%, 62%, 100% { opacity: 1; transform: none; } 66% { opacity: .5; transform: translateX(2px) skewX(-5deg); } 72% { opacity: .95; transform: translateX(-2px); } 78% { opacity: .4; transform: translateX(2px) skewX(6deg); } 84% { opacity: .85; transform: none; } 90% { opacity: .6; } }
+.passou .glitch { animation: glitch-c 4.8s steps(1) infinite; animation-delay: calc(var(--k, 0) * -.31s); }
+@keyframes glitch-a { 0%, 82%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 84% { clip-path: inset(6% 0 60% 0); transform: translateX(-3px); } 87% { clip-path: inset(64% 0 4% 0); transform: translateX(3px); } 90% { clip-path: inset(30% 0 40% 0); transform: translateX(-2px) skewX(-8deg); } 93% { clip-path: inset(80% 0 0 0); transform: translateX(3px); } 96% { clip-path: inset(0 0 100% 0); transform: none; } }
+@keyframes glitch-b { 0%, 83%, 100% { clip-path: inset(0 0 100% 0); transform: none; } 85% { clip-path: inset(50% 0 26% 0); transform: translateX(3px); } 88% { clip-path: inset(2% 0 82% 0); transform: translateX(-3px); } 91% { clip-path: inset(68% 0 10% 0); transform: translateX(2px) skewX(6deg); } 94% { clip-path: inset(20% 0 62% 0); transform: translateX(-3px); } 97% { clip-path: inset(0 0 100% 0); transform: none; } }
+@keyframes glitch-c { 0%, 82%, 100% { opacity: 1; transform: none; } 85% { opacity: .7; transform: translateX(1px) skewX(-2deg); } 89% { opacity: .95; transform: translateX(-1px); } 93% { opacity: .75; transform: none; } 96% { opacity: 1; } }
 .aviso { display: inline-flex; align-items: center; gap: 12px; margin-top: clamp(24px, 4vh, 40px); padding: 10px 18px; border: 1px solid var(--violet); border-radius: 99px; font-size: .9rem; }
 .aviso[hidden] { display: none; }
 .aviso::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--neon); animation: pisca 1.4s ease-in-out infinite alternate; }
@@ -250,10 +250,12 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .slot:nth-child(14) { left: 58%; top: 61%; --r: -6deg; }
 .slot:nth-child(15) { left: 77%; top: 56%; --r: 3deg; }
 .slot:hover, .slot:focus-within { rotate: 0deg; translate: 0 -10px; z-index: 999 !important; }
+/* área de toque maior enquanto levantada: sem ela a foto sai de baixo do cursor, perde o hover e fica pulando */
+.slot:hover .foto:not(.sai)::after { content: ''; position: absolute; inset: -24px; }
 .foto { position: absolute; left: 0; top: 0; width: 100%; padding: 6px 6px 22px; background: #f3eefa; box-shadow: 0 2px 3px rgba(0, 0, 0, .5), 0 18px 36px rgba(0, 0, 0, .55); transition: opacity .8s; }
 .foto img { width: 100%; height: auto; }
 .foto.entra { animation: joga .75s var(--ease) both; }
-.foto.sai { opacity: 0; pointer-events: none; }
+.foto.sai { opacity: 0; pointer-events: none; transition-duration: .4s; }
 @keyframes joga { from { opacity: 0; transform: translate(6%, -22%) scale(1.22) rotate(9deg); } 60% { opacity: 1; } }
 .visor { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; border: 0; background: rgba(6, 4, 8, .94); color: #fff; }
 .visor[open] { display: grid; place-items: center; }

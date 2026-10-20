@@ -140,7 +140,7 @@
       nova.append(img);
       slot.style.zIndex = ++topo;
       slot.append(nova);
-      if (velha) { velha.classList.add('sai'); setTimeout(() => velha.remove(), 900); }
+      if (velha) { velha.className = 'foto sai'; setTimeout(() => velha.remove(), 900); }
     };
     img.src = caminho(n);
   };
