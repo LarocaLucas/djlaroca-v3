@@ -15,6 +15,10 @@
 - Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 03/11/2026 — Claude Code (revisão do impeccable)
+- Crítica do impeccable (avaliação de design + detector, 25 achados, vários falsos positivos de títulos display). Corrigido só o de baixo risco, sem mexer na identidade: textos funcionais abaixo de 11 px subiram (menu .7rem, tags do hero e rótulos dos números .72rem, faixas .72rem, dia da agenda .7rem); `.pill` com 44 px de altura mínima (alvo de toque); texto do `.som-foot` sobre o violeta passou de #12051f (4,0:1) para branco (4,93:1).
+- Não mexido (decisão do dono): aviso da agenda ainda fala de outubro; datas passadas na agenda; linha para o contratante (o que mandar, tempo de resposta, onde já tocou); imagem de compartilhamento 1200×630 (hoje usa a foto vertical).
+- Testes: prints locais em 1440 e 500 de largura (hero e tags sem estouro). Não testado: celular real.
 ### 19/10/2026 — Claude Code (glitch mais suave e fotos pulando)
 - **Pedido (dono):** glitch das datas passadas forte e rápido demais; em alguns navegadores as fotos sobrepostas da galeria ficavam pulando uma por cima da outra.
 - **Glitch:** ciclo de 2,6 s/2,2 s para 5,2 s/4,8 s, rajada mais curta (~0,6 s) e com cerca de metade do deslocamento, da inclinação e do filtro.

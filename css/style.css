@@ -32,7 +32,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .row-tags { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
 
 .pill {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 18px;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px;
   border-radius: 99px; background: #fff; color: #0a0610; font-size: .82rem; font-weight: 500; white-space: nowrap;
   transition: background .25s, color .25s, transform .25s var(--ease);
 }
@@ -55,7 +55,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .rolou .top-clock { opacity: 0; }
 .top-clock span { color: #fff; font-variant-numeric: tabular-nums; margin-left: .4em; }
 .top > .pill { justify-self: end; }
-.top-menu { display: grid; justify-items: center; gap: 4px; min-width: 56px; min-height: 44px; font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; mix-blend-mode: difference; }
+.top-menu { display: grid; justify-items: center; gap: 4px; min-width: 56px; min-height: 44px; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; mix-blend-mode: difference; }
 .top-menu { padding: 6px 14px; border-radius: 99px; transition: background .3s; }
 .rolou .top-menu { mix-blend-mode: normal; background: rgba(6, 4, 8, .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 .bars { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
@@ -99,7 +99,7 @@ main > section:not(.hero) { position: relative; z-index: 1; background: var(--in
 .logo-slot { position: relative; width: min(100%, 1060px, 76vw); margin: auto auto 0; aspect-ratio: 2048 / 590; }
 .logo-slot img { position: absolute; left: 0; top: 50%; width: 100%; max-width: none; height: auto; transform: translateY(-50%); }
 .ink-on .logo-slot img { opacity: 0; }
-.hero-tags { display: flex; justify-content: space-between; gap: 4px 16px; white-space: nowrap; margin-top: clamp(8px, 2vh, 20px); font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; }
+.hero-tags { display: flex; justify-content: space-between; gap: 4px 16px; white-space: nowrap; margin-top: clamp(8px, 2vh, 20px); font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
 .hero-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; }
 .hero-foot ul { max-width: 26em; font-size: .86rem; line-height: 1.35; display: grid; gap: 8px; }
 .hero-foot li::before { content: '• '; }
@@ -110,7 +110,7 @@ main > section:not(.hero) { position: relative; z-index: 1; background: var(--in
 .sobre-foot { margin-top: clamp(48px, 10vh, 120px); display: grid; grid-template-columns: minmax(0, 22em) 1fr auto; gap: 32px clamp(24px, 6vw, 96px); align-items: end; }
 .sobre-foot > p { font-size: .86rem; color: var(--dim); line-height: 1.4; }
 .stats { display: flex; gap: clamp(20px, 4vw, 64px); }
-.stats dt { font-size: .68rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); }
+.stats dt { font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); }
 .stats dd { font-size: clamp(1.8rem, 3.4vw, 3.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1.1; }
 .chips { text-align: right; color: var(--dim); }
 .chips ul { display: flex; gap: 6px; margin-top: 10px; justify-content: flex-end; flex-wrap: wrap; }
@@ -129,13 +129,13 @@ main > section.som { padding-block: clamp(40px, 8vh, 80px) clamp(28px, 5vh, 48px
 .faixas { margin: clamp(48px, 9vh, 96px) auto 0; max-width: 1180px; }
 .faixas li { display: grid; grid-template-columns: 3.2em minmax(9em, 1fr) minmax(0, 2.2fr); gap: 4px 20px; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--line); transition: padding .4s var(--ease), background .3s; }
 .faixas li:hover { padding-inline: 14px; background: rgba(240, 232, 255, .05); }
-.faixas span { font-size: .7rem; color: var(--dim); font-variant-numeric: tabular-nums; }
+.faixas span { font-size: .72rem; color: var(--dim); font-variant-numeric: tabular-nums; }
 .faixas h3 { font-size: clamp(1.05rem, 1.7vw, 1.5rem); font-weight: 500; letter-spacing: -.02em; }
 .faixas p { font-size: .88rem; color: rgba(240, 232, 255, .78); line-height: 1.4; }
 .player-titulo { max-width: 1180px; margin: clamp(48px, 9vh, 96px) auto 0; font-size: clamp(1.5rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.05; text-wrap: balance; }
 .player-titulo + .player { margin-top: clamp(18px, 3vh, 32px); }
 .player { display: block; width: 100%; max-width: 1180px; margin: clamp(32px, 6vh, 64px) auto 0; border: 0; border-radius: 6px; background: rgba(6, 4, 8, .5); }
-.som-foot { max-width: 1180px; margin: clamp(28px, 5vh, 48px) auto 0; align-items: center; color: #12051f; font-weight: 500; }
+.som-foot { max-width: 1180px; margin: clamp(28px, 5vh, 48px) auto 0; align-items: center; color: #fff; font-weight: 500; }
 
 /* ---------- Agenda, histórico ---------- */
 .agenda, .historico, .galeria { padding-block: clamp(64px, 12vh, 130px) 0; }
@@ -157,7 +157,7 @@ main > section.som { padding-bottom: calc(clamp(28px, 5vh, 48px) + 32px); }
 .dia header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; }
 .dia-n { font-size: clamp(2.6rem, 4vw, 3.6rem); font-weight: 600; letter-spacing: -.05em; line-height: .9; font-variant-numeric: tabular-nums; }
 .dia-m { font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--dim); white-space: pre-line; line-height: 1.25; }
-.dia-s { margin-left: auto; padding: 4px 10px; border: 1px solid var(--line); border-radius: 99px; font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--neon); white-space: nowrap; }
+.dia-s { margin-left: auto; padding: 4px 10px; border: 1px solid var(--line); border-radius: 99px; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--neon); white-space: nowrap; }
 /* sempre o local em cima e a cidade embaixo */
 .dia li { display: grid; justify-items: start; gap: 1px; padding: 9px 0; border-top: 1px solid var(--line); font-size: .95rem; }
 .dia b { font-weight: 500; }
