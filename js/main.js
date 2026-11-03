@@ -42,15 +42,22 @@
   $$('.faixas, .linha').forEach(linhas);
   $$('.slot').forEach((el, k) => el.style.setProperty('--k', k));
 
-  /* Agenda: lida de agenda.json (o dono edita no GitHub). Um cartão por dia;
-     dia que já passou fica apagado, com glitch, e vira "Realizado". */
+  /* Agenda: publicada pela Central laroca.dev no R2 (arquivos.djlaroca.com.br); se falhar, usa o agenda.json do site.
+     Um cartão por dia; dia que já passou fica apagado, com glitch, e vira "Realizado".
+     realizadosVisiveis (opcional) limita quantos dias realizados aparecem (os mais recentes). */
+  const AGENDA_R2 = 'https://arquivos.djlaroca.com.br/site/agenda.json';
+  const lerAgenda = url => fetch(url, { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(ag => { if (!ag || !Array.isArray(ag.datas)) throw new Error('formato'); return ag; });
   const corpo = $('#agenda-corpo'), aviso = $('#agenda-aviso');
   const cria = (tag, classe, texto) => { const e = document.createElement(tag); if (classe) e.className = classe; if (texto != null) e.textContent = texto; return e; };
   const comGlitch = (tag, classe, texto) => { const e = cria(tag, (classe + ' glitch').trim(), texto); e.dataset.t = texto; return e; };
-  fetch('agenda.json', { cache: 'no-cache' }).then(r => r.json()).then(ag => {
+  lerAgenda(AGENDA_R2).catch(() => lerAgenda('agenda.json')).then(ag => {
     const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });   // AAAA-MM-DD
     const dias = new Map();
     for (const d of [...ag.datas].sort((a, b) => a.data.localeCompare(b.data))) dias.set(d.data, [...(dias.get(d.data) || []), d]);
+    if (Number.isInteger(ag.realizadosVisiveis) && ag.realizadosVisiveis >= 0) {
+      const passados = [...dias.keys()].filter(d => d < hoje);
+      passados.slice(0, Math.max(0, passados.length - ag.realizadosVisiveis)).forEach(d => dias.delete(d));
+    }
     corpo.textContent = '';
     if (ag.aviso) { aviso.textContent = ag.aviso; aviso.hidden = false; }
     for (const [data, shows] of dias) {
