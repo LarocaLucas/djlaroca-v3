@@ -15,6 +15,10 @@
 - Repositório antigo `LarocaLucas/djlaroca` privado e arquivado. O projeto antigo `djlaroca` do Cloudflare Pages continua existindo, sem domínio (pode ser apagado quando o dono quiser).
 
 ## Registro
+### 04/11/2026 — Claude Code (branch `feat/agenda-r2`, sem merge)
+- A agenda passa a ser lida de `https://arquivos.djlaroca.com.br/site/agenda.json` (publicada pela Central laroca.dev), com o `agenda.json` do site como reserva se o R2 falhar ou não existir. Campo novo opcional `realizadosVisiveis`: mantém só os N dias realizados mais recentes. `main.js?v=3.3.0`.
+- **Não juntar antes** de existirem o bucket `djlaroca-site` e o domínio `arquivos.djlaroca.com.br` (dependem do ok do dono para o DNS). Mesmo sem eles, o site funciona: cai na reserva.
+- Testes: `node --check`; filtro de realizados conferido com exemplo (2 mais recentes ficam). Não testado no navegador.
 ### 03/11/2026 — Claude Code (revisão do impeccable)
 - Crítica do impeccable (avaliação de design + detector, 25 achados, vários falsos positivos de títulos display). Corrigido só o de baixo risco, sem mexer na identidade: textos funcionais abaixo de 11 px subiram (menu .7rem, tags do hero e rótulos dos números .72rem, faixas .72rem, dia da agenda .7rem); `.pill` com 44 px de altura mínima (alvo de toque); texto do `.som-foot` sobre o violeta passou de #12051f (4,0:1) para branco (4,93:1).
 - Não mexido (decisão do dono): aviso da agenda ainda fala de outubro; datas passadas na agenda; linha para o contratante (o que mandar, tempo de resposta, onde já tocou); imagem de compartilhamento 1200×630 (hoje usa a foto vertical).
