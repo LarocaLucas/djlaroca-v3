@@ -1,24 +1,50 @@
-# DJ Laroca — site v3
+# DJ Laroca — site oficial (v3)
 
-Site oficial do DJ Laroca, no ar em [djlaroca.com.br](https://djlaroca.com.br/): estático (HTML, CSS e JS puros, sem build).
+Site oficial do DJ Laroca: agenda de shows, galeria, vídeos e contato para contratação.
 
-- **Publicação:** Cloudflare Pages (projeto `djlaroca`), automática a cada push na branch `main`.
-- **Rodar local:** `python -m http.server 8765` e abrir http://127.0.0.1:8765/
+- **Status:** no ar
+- **Endereço:** https://djlaroca.com.br/
+- **Cliente:** DJ Laroca (dono do site); desenvolvimento pela laroca.dev
+
+## Principais funções
+
+- Hero com efeito de tinta em WebGL: a logo glitch revela a logo gótica.
+- Agenda lida de `agenda.json`; datas passadas ficam apagadas, com a situação "Realizado".
+- Galeria de fotos, player do Spotify, menu, relógio e cursor personalizado.
+
+## Stack
+
+HTML5, CSS3 e JavaScript puros (WebGL no hero), sem build e sem dependências.
 
 ## Estrutura
-- `index.html` — conteúdo das seções
-- `agenda.json` — datas da agenda e o aviso em destaque (veja abaixo)
-- `css/style.css` — layout e paleta roxa
-- `js/ink.js` — efeito de tinta do hero (WebGL): a logo glitch vira a gótica
-- `js/main.js` — menu, relógio, entradas de texto, galeria, cursor
-- `assets/images/galeria/foto-NNN.jpg` — fotos; ao adicionar, atualize `data-total` em `.fotos`
 
-## Como editar a agenda pelo GitHub
-1. Abra `agenda.json` no repositório e clique no lápis (Edit this file).
-2. Altere só o que está entre aspas:
-   - `aviso`: a mensagem em destaque acima da agenda. Deixe `""` para esconder.
-   - cada linha de `datas` é um show: `data` (formato `AAAA-MM-DD`), `local`, `cidade` e `situacao`.
-3. Para um show novo, copie uma linha inteira e cole abaixo. Todas as linhas terminam com vírgula, **menos a última**.
-4. Clique em **Commit changes**. O site (djlaroca.com.br) atualiza sozinho em cerca de um minuto.
+```
+index.html            conteúdo das seções
+agenda.json           datas e aviso em destaque
+css/style.css         layout e paleta roxa
+js/ink.js             efeito de tinta do hero
+js/main.js            menu, relógio, galeria, cursor
+assets/images/        logos e fotos (galeria/foto-NNN.jpg)
+```
 
-Shows no mesmo dia aparecem juntos num cartão só. Datas que já passaram ficam apagadas, com efeito de glitch e a situação "Realizado", sem precisar editar. Se o arquivo ficar com erro (vírgula ou aspas faltando), o site mostra "Agenda indisponível" até ser corrigido.
+## Editar a agenda
+
+Edite `agenda.json` pelo GitHub (lápis → Commit changes). Cada linha de `datas` tem `data` (AAAA-MM-DD), `local`, `cidade` e `situacao`; `aviso` é a mensagem em destaque (vazio esconde). O site atualiza em cerca de um minuto. Ao adicionar fotos, atualize `data-total` em `.fotos` no `index.html`.
+
+## Rodar localmente
+
+```bash
+python -m http.server 8765   # abrir http://127.0.0.1:8765/
+```
+
+## Publicar
+
+Cloudflare Pages, automático a cada push na `main` pela action `.github/workflows/publicar.yml`. Todo push vai ao ar: teste antes.
+
+## Licença
+
+Proprietário — todos os direitos reservados.
+
+## Contato
+
+Desenvolvido pela [laroca.dev](https://laroca.dev) · contato@laroca.dev
