@@ -123,12 +123,18 @@
   /* Galeria: fotos espalhadas como sobre uma mesa. A cada rodada, duas ou três fotos
      novas são "jogadas" por cima de posições diferentes, cada uma num momento sorteado. */
   const mesa = $('.mesa'), visor = $('.visor'), visorImg = $('img', visor);
-  const total = +mesa.dataset.total, caminho = n => `assets/images/galeria/foto-${String(n).padStart(3, '0')}.jpg`;
+  /* lista de fotos: as do site (assets) e, na frente, as publicadas pela Central laroca.dev no R2 (galeria.json) */
+  const local = Array.from({ length: +mesa.dataset.total }, (_, i) => {
+    const c = `assets/images/galeria/foto-${String(i + 1).padStart(3, '0')}.jpg`;
+    return { mini: c, src: c };
+  });
+  let lista = local;
+  const embaralha = n => Array.from({ length: n }, (_, i) => i + 1).sort(() => Math.random() - .5);
   const slots = $$('.slot', mesa), naMesa = () => $$('.foto:not(.sai)', mesa).map(f => +f.dataset.n);
   let fila = [], topo = 10, mesaVisivel = false;
   const ocupados = new Set();   // posições que acabaram de trocar: descansam um pouco antes de trocar de novo
   const proxima = () => {
-    if (!fila.length) fila = Array.from({ length: total }, (_, i) => i + 1).sort(() => Math.random() - .5);
+    if (!fila.length) fila = embaralha(lista.length);
     const n = fila.pop();
     return naMesa().includes(n) ? proxima() : n;
   };
@@ -149,13 +155,36 @@
       slot.append(nova);
       if (velha) { velha.className = 'foto sai'; setTimeout(() => velha.remove(), 900); }
     };
-    img.src = caminho(n);
+    img.src = lista[n - 1].mini;
   };
+  const R2 = 'https://arquivos.djlaroca.com.br';
+  fetch(`${R2}/site/galeria.json`, { cache: 'no-cache' }).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
+    /* pasta DD-MM-AAAA ou AAAA-MM-DD (com -N quando substituída): álbuns mais recentes primeiro */
+    const data = f => { let m = /^(\d{2})-(\d{2})-(\d{4})(?:-\d+)?$/.exec(f); if (m) return `${m[3]}-${m[2]}-${m[1]}`; m = /^(\d{4}-\d{2}-\d{2})(?:-\d+)?$/.exec(f); return m ? m[1] : ''; };
+    const evs = (j.eventos || []).filter(e => /^[\w.-]+$/.test(e.folder) && e.total > 0).map((e, k) => ({ e, k }))
+      .sort((x, y) => data(y.e.folder).localeCompare(data(x.e.folder)) || x.k - y.k);
+    const r2 = [];
+    for (const { e } of evs) {
+      /* ordem escolhida na Central primeiro; o que falta segue crescente; ocultas nunca aparecem */
+      const ocultas = new Set(Array.isArray(e.ocultas) ? e.ocultas : []);
+      const vale = n => Number.isInteger(n) && n >= 1 && n <= e.total && !ocultas.has(n);
+      const nums = [...new Set((Array.isArray(e.ordem) ? e.ordem : []).filter(vale))];
+      for (let n = 1; n <= e.total; n++) if (vale(n) && !nums.includes(n)) nums.push(n);
+      for (const n of nums.slice(0, 500)) {
+        const nn = String(n).padStart(2, '0');
+        r2.push({ src: `${R2}/${e.folder}/${nn}.jpg`, mini: e.miniaturas === true ? `${R2}/${e.folder}/mini/${nn}.webp` : `${R2}/${e.folder}/${nn}.jpg` });
+      }
+    }
+    if (!r2.length) return;
+    $$('.foto', mesa).forEach(f => { f.dataset.n = +f.dataset.n + r2.length; });   // as do site andam para depois das novas
+    lista = [...r2, ...local];
+    fila = embaralha(r2.length);   // as fotos novas entram primeiro na mesa
+  }).catch(() => {});
   new IntersectionObserver(([e]) => { mesaVisivel = e.isIntersecting; }, { threshold: .15 }).observe(mesa);
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { for (let i = 2 + (Math.random() * 2 | 0); i--;) setTimeout(joga, Math.random() * 1500); }, 1800);
 
   let atual = 1;
-  const mostra = n => { atual = (n - 1 + total) % total + 1; visorImg.src = caminho(atual); visorImg.alt = `Foto ${atual} de ${total}`; };
+  const mostra = n => { const t = lista.length; atual = (n - 1 + t) % t + 1; visorImg.src = lista[atual - 1].src; visorImg.alt = `Foto ${atual} de ${t}`; };
   mesa.addEventListener('click', e => {
     const f = e.target.closest('.foto'); if (!f) return;
     mostra(+f.dataset.n); visor.showModal();
